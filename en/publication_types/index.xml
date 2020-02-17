@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Publication_types | Du Liqiang</title>
+    <link>https://keris.github.io/en/publication_types/</link>
+      <atom:link href="https://keris.github.io/en/publication_types/index.xml" rel="self" type="application/rss+xml" />
+    <description>Publication_types</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <image>
+      <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
+      <title>Publication_types</title>
+      <link>https://keris.github.io/en/publication_types/</link>
+    </image>
+    
+  </channel>
+</rss>

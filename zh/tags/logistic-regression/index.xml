@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>logistic-regression | 杜利强</title>
+    <link>https://keris.github.io/zh/tags/logistic-regression/</link>
+      <atom:link href="https://keris.github.io/zh/tags/logistic-regression/index.xml" rel="self" type="application/rss+xml" />
+    <description>logistic-regression</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 14 Jan 2020 16:47:22 +0800</lastBuildDate>
+    <image>
+      <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
+      <title>logistic-regression</title>
+      <link>https://keris.github.io/zh/tags/logistic-regression/</link>
+    </image>
+    
+    <item>
+      <title>逻辑回归（Logistic Regression）</title>
+      <link>https://keris.github.io/zh/post/logistic-regression/</link>
+      <pubDate>Tue, 14 Jan 2020 16:47:22 +0800</pubDate>
+      <guid>https://keris.github.io/zh/post/logistic-regression/</guid>
+      <description>&lt;h2&gt;目录&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#术语&#34;&gt;术语&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#logistic-function&#34;&gt;Logistic function&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#odds&#34;&gt;Odds&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#logit-function&#34;&gt;Logit function&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#逻辑回归&#34;&gt;逻辑回归&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#代价函数求导&#34;&gt;代价函数求导&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h2 id=&#34;术语&#34;&gt;术语&lt;/h2&gt;
+&lt;p&gt;逻辑回归涉及到以下术语：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Logistic function&lt;/li&gt;
+&lt;li&gt;Odds&lt;/li&gt;
+&lt;li&gt;Logit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;logistic-function&#34;&gt;Logistic function&lt;/h3&gt;
+&lt;p&gt;逻辑回归中的 &lt;em&gt;Logistic&lt;/em&gt; 正是出于 &lt;em&gt;Logistic function&lt;/em&gt; ，它是一种 &lt;em&gt;sigmoid function&lt;/em&gt; ，其接受任意实值，输出一个0到1之间的值。
+&lt;em&gt;标准的&lt;/em&gt; logistic funtion 定义如下：&lt;/p&gt;
+&lt;p&gt;$$\sigma(z) = \frac{e^z}{e^z + 1} = \frac{1}{1 + e^{-z}}$$&lt;/p&gt;
+&lt;p&gt;如下是它在区间$[-6, 6]$之间的图像：&lt;/p&gt;
+&lt;p&gt;&lt;a title=&#34;logistic function curve&#34; href=&#34;https://commons.wikimedia.org/wiki/File:Logistic-curve.svg&#34;&gt;&lt;img width=&#34;512&#34; alt=&#34;Logistic-curve&#34; src=&#34;https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/512px-Logistic-curve.svg.png&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在逻辑回归中，我们使用对数几率（log odds），&lt;strong&gt;并假定它是输入特征的线性组合&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;$$z = \ln \frac{p(x)}{1 - p(x)}= \theta_0 + \theta_1 x_1 + \theta_2 x_2 = \theta^T \cdot x$$&lt;/p&gt;
+&lt;p&gt;由上式我们可以得到，&lt;/p&gt;
+&lt;p&gt;$$p(x) = \sigma(z) = \frac{1}{1 + e^{-\theta^T \cdot x}}$$&lt;/p&gt;
+&lt;p&gt;在逻辑回归模型中，这里的 $p(x)$ 为因变量在成功情形下的概率，即 $p(y=1 \mid x)$。&lt;/p&gt;
+&lt;h3 id=&#34;odds&#34;&gt;Odds&lt;/h3&gt;
+&lt;p&gt;如果 $p$ 表示一个事件发生的概率，那么odds定义为&lt;/p&gt;
+&lt;p&gt;$$\text{odds} = \frac{p}{1 - p}$$
+也就是说，odds为发生的概率除以不发生的概率，亦可以说为成功的概率除以失败的概率。&lt;/p&gt;
+&lt;h3 id=&#34;logit-function&#34;&gt;Logit function&lt;/h3&gt;
+&lt;p&gt;Logit为Log odds, logit function 定义为 logistic function的逆，即 $g = \sigma^{-1}$。显而易见，我们有&lt;/p&gt;
+&lt;p&gt;$$g(p(x)) = \sigma_{-1}(p(x)) = \text{logit}\,p(x) = \ln(\frac{p(x)}{1 - p(x)}) = \theta^T \cdot x$$&lt;/p&gt;
+&lt;h2 id=&#34;逻辑回归&#34;&gt;逻辑回归&lt;/h2&gt;
+&lt;p&gt;逻辑回归是一个重要的机器学习算法，其目标是基于给定的数据$x$输出随机变量$y$为0或1的概率。&lt;/p&gt;
+&lt;p&gt;考虑由$\theta$参数化的线性模型，&lt;/p&gt;
+&lt;p&gt;$$h_\theta(x) = \frac{1}{1 + e^{-\theta^T \cdot x}} = \text{Pr}(y = 1 \mid x;\theta)$$&lt;/p&gt;
+&lt;p&gt;从而，$\text{Pr}(y=0 \mid x;\theta) = 1 - h_\theta(x)$。&lt;/p&gt;
+&lt;p&gt;因为$y \in \{0, 1 \}$，我们有&lt;/p&gt;
+&lt;p&gt;$$\text{Pr}(y \mid x;\theta) = h_\theta(x)^y (1 - h_\theta(x))^{1 - y}
+$$&lt;/p&gt;
+&lt;p&gt;似然函数为&lt;/p&gt;
+&lt;p&gt;$$\begin{aligned} L(\theta \mid x) &amp;amp;= \Pr(Y\mid X;\theta) \\&lt;br&gt;
+&amp;amp;= \prod_i \Pr(y^{(i)} \mid x^{(i)};\theta) \\&lt;br&gt;
+&amp;amp;= \prod_i h_\theta(x^{(i)})^{y^{(i)}}(1-h_\theta(x^{(i)}))^{1-y^{(i)}} \end{aligned}$$&lt;/p&gt;
+&lt;p&gt;一般地，我们最大化对数似然函数，&lt;/p&gt;
+&lt;p&gt;$$\log L(\theta \mid x) = \sum_{i=1}^{m}\log \Pr(y^{(i)} \mid x^{(i)};\theta)$$&lt;/p&gt;
+&lt;p&gt;定义代价函数如下：&lt;/p&gt;
+&lt;p&gt;$$J(\theta) = -\frac{1}{m} \log L(\theta \mid x) = -\frac{1}{m} \sum_i^m (y^{(i)} \log h_\theta(x^{(i)}) + (1 - y^{(i)})(1 - h_\theta(x^{(i)})))$$&lt;/p&gt;
+&lt;p&gt;容易看到，我们最大化对数似然函数就是最小化代价函数 $J(\theta)$。在机器学习中，我们使用梯度下降最小化代价函数。&lt;/p&gt;
+&lt;h3 id=&#34;代价函数求导&#34;&gt;代价函数求导&lt;/h3&gt;
+&lt;p&gt;下面我们对代价函数$J(\theta)$对$\theta$进行求导，我们先考虑在一个样本上的代价函数&lt;/p&gt;
+&lt;p&gt;$$J_1(\theta) = -y \log h_\theta(x) - (1 - y)(1 - h_\theta(x))$$&lt;/p&gt;
+&lt;p&gt;现在对$J_1(\theta)$对$\theta$进行求导：&lt;/p&gt;
+&lt;p&gt;注意到$\frac{d\sigma(z)}{dz} = \sigma(z) (1 - \sigma(z))$, 我们有&lt;/p&gt;
+&lt;p&gt;$$\begin{aligned}\frac{\partial}{\partial \theta_j} J_1(\theta) &amp;amp;= -y \frac{1}{h_\theta(x)} h_\theta(x) (1 - h_\theta(x)) x_j - (1 - y) \frac{1}{1 - h_\theta(x)} (-1) h_\theta(x) (1 - h_\theta(x)) x_j \\ &amp;amp;= (h_\theta(x) - y) x_j\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;有了以上结果，我们有&lt;/p&gt;
+&lt;p&gt;$$\frac{\partial}{\partial \theta_j} J(\theta) = \frac{1}{m}\sum_i^m [h_\theta(x^{(i)}) - y^{(i)}]x_j^{(i)}$$&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

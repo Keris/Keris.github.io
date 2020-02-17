@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags | 杜利强</title>
+    <link>https://keris.github.io/zh/tags/</link>
+      <atom:link href="https://keris.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tags</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 14 Jan 2020 16:47:22 +0800</lastBuildDate>
+    <image>
+      <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
+      <title>Tags</title>
+      <link>https://keris.github.io/zh/tags/</link>
+    </image>
+    
+    <item>
+      <title>logistic-regression</title>
+      <link>https://keris.github.io/zh/tags/logistic-regression/</link>
+      <pubDate>Tue, 14 Jan 2020 16:47:22 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/logistic-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>逻辑回归</title>
+      <link>https://keris.github.io/zh/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Tue, 14 Jan 2020 16:47:22 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>change-author</title>
+      <link>https://keris.github.io/zh/tags/change-author/</link>
+      <pubDate>Thu, 07 Nov 2019 17:47:23 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/change-author/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://keris.github.io/zh/tags/git/</link>
+      <pubDate>Thu, 07 Nov 2019 17:47:23 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/git/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
