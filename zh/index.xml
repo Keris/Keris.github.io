@@ -5,12 +5,749 @@
     <link>https://keris.github.io/zh/</link>
       <atom:link href="https://keris.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
     <description>杜利强</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 14 Jan 2020 16:47:22 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Wed, 26 Feb 2020 15:41:30 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>杜利强</title>
       <link>https://keris.github.io/zh/</link>
     </image>
+    
+    <item>
+      <title>RFM模型及实践</title>
+      <link>https://keris.github.io/zh/post/what-is-rfm-model/</link>
+      <pubDate>Wed, 26 Feb 2020 15:41:30 +0800</pubDate>
+      <guid>https://keris.github.io/zh/post/what-is-rfm-model/</guid>
+      <description>&lt;p&gt;RFM是一种用于分析客户价值的方法，常用于营销。其中RFM代表三个维度：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;R&lt;/strong&gt;ecency 表示最近一次客户购买的时间&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;F&lt;/strong&gt;requency 表示在统计周期内客户购买的次数&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;M&lt;/strong&gt;onetary Value 表示统计周期内客户消费的总金额&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接下来，我们使用RFM模型分析一个真实的&lt;a href=&#34;https://www.kaggle.com/carrie1/ecommerce-data#data.csv&#34;&gt;在线购物数据&lt;/a&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+from datetime import timedelta
+import seaborn as sns
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Read dataset
+online = pd.read_csv(&#39;data.csv&#39;, encoding=&#39;ISO-8859-1&#39;)
+online.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;InvoiceNo&lt;/th&gt;
+      &lt;th&gt;StockCode&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+      &lt;th&gt;Quantity&lt;/th&gt;
+      &lt;th&gt;InvoiceDate&lt;/th&gt;
+      &lt;th&gt;UnitPrice&lt;/th&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;Country&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;536365&lt;/td&gt;
+      &lt;td&gt;85123A&lt;/td&gt;
+      &lt;td&gt;WHITE HANGING HEART T-LIGHT HOLDER&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;12/1/2010 8:26&lt;/td&gt;
+      &lt;td&gt;2.55&lt;/td&gt;
+      &lt;td&gt;17850.0&lt;/td&gt;
+      &lt;td&gt;United Kingdom&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;536365&lt;/td&gt;
+      &lt;td&gt;71053&lt;/td&gt;
+      &lt;td&gt;WHITE METAL LANTERN&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;12/1/2010 8:26&lt;/td&gt;
+      &lt;td&gt;3.39&lt;/td&gt;
+      &lt;td&gt;17850.0&lt;/td&gt;
+      &lt;td&gt;United Kingdom&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;536365&lt;/td&gt;
+      &lt;td&gt;84406B&lt;/td&gt;
+      &lt;td&gt;CREAM CUPID HEARTS COAT HANGER&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;12/1/2010 8:26&lt;/td&gt;
+      &lt;td&gt;2.75&lt;/td&gt;
+      &lt;td&gt;17850.0&lt;/td&gt;
+      &lt;td&gt;United Kingdom&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;536365&lt;/td&gt;
+      &lt;td&gt;84029G&lt;/td&gt;
+      &lt;td&gt;KNITTED UNION FLAG HOT WATER BOTTLE&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;12/1/2010 8:26&lt;/td&gt;
+      &lt;td&gt;3.39&lt;/td&gt;
+      &lt;td&gt;17850.0&lt;/td&gt;
+      &lt;td&gt;United Kingdom&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;536365&lt;/td&gt;
+      &lt;td&gt;84029E&lt;/td&gt;
+      &lt;td&gt;RED WOOLLY HOTTIE WHITE HEART.&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;12/1/2010 8:26&lt;/td&gt;
+      &lt;td&gt;3.39&lt;/td&gt;
+      &lt;td&gt;17850.0&lt;/td&gt;
+      &lt;td&gt;United Kingdom&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;online.dtypes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;InvoiceNo       object
+StockCode       object
+Description     object
+Quantity         int64
+InvoiceDate     object
+UnitPrice      float64
+CustomerID     float64
+Country         object
+dtype: object
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Convert InvoiceDate from object to datetime format
+online[&#39;InvoiceDate&#39;] = pd.to_datetime(online[&#39;InvoiceDate&#39;])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;online.dtypes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;InvoiceNo              object
+StockCode              object
+Description            object
+Quantity                int64
+InvoiceDate    datetime64[ns]
+UnitPrice             float64
+CustomerID            float64
+Country                object
+dtype: object
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Check how many rows and columns
+online.shape
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;(541909, 8)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Count transactions that don&#39;t have a customer id
+print(&#39;{:,} transactions don\&#39;t have a customer id&#39;
+     .format(online[online.CustomerID.isnull()].shape[0]))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;135,080 transactions don&#39;t have a customer id
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Check invoice date range
+print(&#39;Transactions timeframe from {} to {}&#39;
+     .format(online.InvoiceDate.min(), online.InvoiceDate.max()))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Transactions timeframe from 2010-12-01 08:26:00 to 2011-12-09 12:50:00
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Drop NA values from online
+online.dropna(inplace=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Group data by CustomerID
+
+# Create TotalSum column for online dataset
+online[&#39;TotalSum&#39;] = online[&#39;Quantity&#39;] * online[&#39;UnitPrice&#39;]
+
+# Create snapshot date
+snapshot_date = online.InvoiceDate.max() + timedelta(days=1)
+print(snapshot_date)
+
+# Group by CustomerID
+data = online.groupby([&#39;CustomerID&#39;]).agg({
+    &#39;InvoiceDate&#39;: lambda x: (snapshot_date - x.max()).days,
+    &#39;InvoiceNo&#39;: &#39;count&#39;,
+    &#39;TotalSum&#39;: &#39;sum&#39;
+})
+
+data.rename(columns={&#39;InvoiceDate&#39;: &#39;Recency&#39;,
+                     &#39;InvoiceNo&#39;: &#39;Frequency&#39;,
+                     &#39;TotalSum&#39;: &#39;MonetaryValue&#39;}, inplace=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;2011-12-10 12:50:00
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Peek first 5 rows
+data.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Recency&lt;/th&gt;
+      &lt;th&gt;Frequency&lt;/th&gt;
+      &lt;th&gt;MonetaryValue&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12346.0&lt;/th&gt;
+      &lt;td&gt;326&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12347.0&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;182&lt;/td&gt;
+      &lt;td&gt;4310.00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12348.0&lt;/th&gt;
+      &lt;td&gt;75&lt;/td&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1797.24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12349.0&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;1757.55&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12350.0&lt;/th&gt;
+      &lt;td&gt;310&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;334.40&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Check how many rows and columns
+data.shape
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;(4372, 3)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这里我们可以看到，根据CutomerID进行分组后，我们聚合生成了每个客户最近一次购买的时间，购买频率和消费额度，共4372条记录。接下来，我们需要对这三个维度进行打分，这可以通过&lt;code&gt;.qcut()&lt;/code&gt;来进行。但在此之前，我们先看一看特征的分布情况。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Plot RFM distributions
+plt.figure(figsize=(12,10))
+
+# Plot distribution of R
+plt.subplot(3, 1, 1)
+sns.distplot(data[&#39;Recency&#39;])
+
+# Plot distribution of F
+plt.subplot(3, 1, 2)
+sns.distplot(data[&#39;Frequency&#39;])
+
+# Plot distribution of M
+plt.subplot(3, 1, 3)
+sns.distplot(data[&#39;MonetaryValue&#39;])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x1199779b0&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;output_13_1.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Calculate R and F groups
+
+# Create labels for Recency and Frequency
+r_labels = range(4, 0, -1)
+f_labels = range(1, 5)
+
+# Assign these labels to 4 equal percentil groups
+r_groups = pd.qcut(data[&#39;Recency&#39;], q=4, labels=r_labels)
+
+f_groups = pd.qcut(data[&#39;Frequency&#39;], q=4, labels=f_labels)
+
+# Create new columns R and F
+data = data.assign(R=r_groups.values, F=f_groups.values)
+data.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Recency&lt;/th&gt;
+      &lt;th&gt;Frequency&lt;/th&gt;
+      &lt;th&gt;MonetaryValue&lt;/th&gt;
+      &lt;th&gt;R&lt;/th&gt;
+      &lt;th&gt;F&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12346.0&lt;/th&gt;
+      &lt;td&gt;326&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.00&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12347.0&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;182&lt;/td&gt;
+      &lt;td&gt;4310.00&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12348.0&lt;/th&gt;
+      &lt;td&gt;75&lt;/td&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1797.24&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12349.0&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;1757.55&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12350.0&lt;/th&gt;
+      &lt;td&gt;310&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;334.40&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Create labels form MonetaryValue
+m_labels = range(1, 5)
+m_groups = pd.qcut(data[&#39;MonetaryValue&#39;], q=4, labels=m_labels)
+data = data.assign(M=m_groups.values)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;data.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Recency&lt;/th&gt;
+      &lt;th&gt;Frequency&lt;/th&gt;
+      &lt;th&gt;MonetaryValue&lt;/th&gt;
+      &lt;th&gt;R&lt;/th&gt;
+      &lt;th&gt;F&lt;/th&gt;
+      &lt;th&gt;M&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12346.0&lt;/th&gt;
+      &lt;td&gt;326&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.00&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12347.0&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;182&lt;/td&gt;
+      &lt;td&gt;4310.00&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12348.0&lt;/th&gt;
+      &lt;td&gt;75&lt;/td&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1797.24&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12349.0&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;1757.55&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12350.0&lt;/th&gt;
+      &lt;td&gt;310&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;334.40&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Concat RFM quartile values to create RFM segments
+def join_rfm(x):
+    return str(x[&#39;R&#39;]) + str(x[&#39;F&#39;]) + str(x[&#39;M&#39;])
+
+data[&#39;RFM_segment_concat&#39;] = data.apply(join_rfm, axis=1)
+rfm = data
+rfm.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Recency&lt;/th&gt;
+      &lt;th&gt;Frequency&lt;/th&gt;
+      &lt;th&gt;MonetaryValue&lt;/th&gt;
+      &lt;th&gt;R&lt;/th&gt;
+      &lt;th&gt;F&lt;/th&gt;
+      &lt;th&gt;M&lt;/th&gt;
+      &lt;th&gt;RFM_segment_concat&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12346.0&lt;/th&gt;
+      &lt;td&gt;326&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.00&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;111&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12347.0&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;182&lt;/td&gt;
+      &lt;td&gt;4310.00&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;444&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12348.0&lt;/th&gt;
+      &lt;td&gt;75&lt;/td&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1797.24&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;224&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12349.0&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;1757.55&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;334&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12350.0&lt;/th&gt;
+      &lt;td&gt;310&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;334.40&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;112&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Count num of unique segments
+rfm_count_unique = rfm.groupby(&#39;RFM_segment_concat&#39;)[&#39;RFM_segment_concat&#39;].nunique()
+print(rfm_count_unique.sum())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;62
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上结果显示，将RFM连接在一起这种方法共形成62个划分，但划分太多了不能用于实际应用。下面我们尝试将这三个值相加。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Calculate RFM_Score
+rfm[&#39;RFM_Score&#39;] = rfm[[&#39;R&#39;, &#39;F&#39;, &#39;M&#39;]].sum(axis=1)
+print(rfm[&#39;RFM_Score&#39;].head())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;CustomerID
+12346.0     3.0
+12347.0    12.0
+12348.0     8.0
+12349.0    10.0
+12350.0     4.0
+Name: RFM_Score, dtype: float64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Define rfm_level function
+def rfm_level(df):
+    if df[&#39;RFM_Score&#39;] &amp;gt;= 9:
+        return &#39;Can\&#39;t Loose Them&#39;
+    elif ((df[&#39;RFM_Score&#39;] &amp;gt;= 8) and (df[&#39;RFM_Score&#39;] &amp;lt; 9)):
+        return &#39;Champions&#39;
+    elif ((df[&#39;RFM_Score&#39;] &amp;gt;= 7) and (df[&#39;RFM_Score&#39;] &amp;lt; 8)):
+        return &#39;Loyal&#39;
+    elif ((df[&#39;RFM_Score&#39;] &amp;gt;= 6) and (df[&#39;RFM_Score&#39;] &amp;lt; 7)):
+        return &#39;Potential&#39;
+    elif ((df[&#39;RFM_Score&#39;] &amp;gt;= 5) and (df[&#39;RFM_Score&#39;] &amp;lt; 6)):
+        return &#39;Promising&#39;
+    elif ((df[&#39;RFM_Score&#39;] &amp;gt;= 4) and (df[&#39;RFM_Score&#39;] &amp;lt; 5)):
+        return &#39;Needs Attention&#39;
+    else:
+        return &#39;Require Activation&#39;
+
+# Create a new variable RFM_Level
+rfm[&#39;RFM_Level&#39;] = rfm.apply(rfm_level, axis=1)
+
+rfm.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Recency&lt;/th&gt;
+      &lt;th&gt;Frequency&lt;/th&gt;
+      &lt;th&gt;MonetaryValue&lt;/th&gt;
+      &lt;th&gt;R&lt;/th&gt;
+      &lt;th&gt;F&lt;/th&gt;
+      &lt;th&gt;M&lt;/th&gt;
+      &lt;th&gt;RFM_segment_concat&lt;/th&gt;
+      &lt;th&gt;RFM_Score&lt;/th&gt;
+      &lt;th&gt;RFM_Level&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;CustomerID&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12346.0&lt;/th&gt;
+      &lt;td&gt;326&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.00&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;111&lt;/td&gt;
+      &lt;td&gt;3.0&lt;/td&gt;
+      &lt;td&gt;Require Activation&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12347.0&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;182&lt;/td&gt;
+      &lt;td&gt;4310.00&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;444&lt;/td&gt;
+      &lt;td&gt;12.0&lt;/td&gt;
+      &lt;td&gt;Can&#39;t Loose Them&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12348.0&lt;/th&gt;
+      &lt;td&gt;75&lt;/td&gt;
+      &lt;td&gt;31&lt;/td&gt;
+      &lt;td&gt;1797.24&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;224&lt;/td&gt;
+      &lt;td&gt;8.0&lt;/td&gt;
+      &lt;td&gt;Champions&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12349.0&lt;/th&gt;
+      &lt;td&gt;19&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;1757.55&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;334&lt;/td&gt;
+      &lt;td&gt;10.0&lt;/td&gt;
+      &lt;td&gt;Can&#39;t Loose Them&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12350.0&lt;/th&gt;
+      &lt;td&gt;310&lt;/td&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;334.40&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;112&lt;/td&gt;
+      &lt;td&gt;4.0&lt;/td&gt;
+      &lt;td&gt;Needs Attention&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Calculate average values for each RFM_Level, and return a size of each segment
+rfm_level_agg = rfm.groupby(&#39;RFM_Level&#39;).agg({
+    &#39;Recency&#39;: &#39;mean&#39;,
+    &#39;Frequency&#39;: &#39;mean&#39;,
+    &#39;MonetaryValue&#39;: [&#39;mean&#39;, &#39;count&#39;]
+}).round(1)
+
+# Print the aggregate dataset
+print(rfm_level_agg)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;                   Recency Frequency MonetaryValue
+                      mean      mean          mean count
+RFM_Level
+Can&#39;t Loose Them      25.2     195.1        4130.3  1690
+Champions             62.7      57.0         974.7   467
+Loyal                 78.8      39.7         724.2   447
+Needs Attention      174.5      13.9         227.1   391
+Potential             94.3      28.5         491.8   468
+Promising            153.0      21.2         346.8   517
+Require Activation   264.8       7.8         109.1   392
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从以上结果我们可以看到，约60%的客户属于优质客户（前三类用户）。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Visualize segments
+rfm_level_agg.columns = rfm_level_agg.columns.droplevel()
+rfm_level_agg.columns = [&#39;RecencyMean&#39;, &#39;FrequencyMean&#39;, &#39;MonetaryMean&#39;, &#39;Count&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Create our plot and resize it
+fig = plt.gcf()
+ax = fig.add_subplot()
+fig.set_size_inches(16, 9)
+
+squarify.plot(sizes=rfm_level_agg[&#39;Count&#39;], label=list(rfm_level_agg.index), alpha=.6)
+plt.title(&#39;RFM Segments&#39;, fontsize=18, fontweight=&#39;bold&#39;)
+plt.axis(&#39;off&#39;)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;output_25_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>逻辑回归（Logistic Regression）</title>
