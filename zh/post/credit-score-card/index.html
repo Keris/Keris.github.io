@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="杜利强">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="通过此文了信用评分卡模型的方方面面">
+
+  
+  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/credit-score-card/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3f51b5">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/zh/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="https://keris.github.io/zh/post/credit-score-card/">
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@duliqiang">
+  <meta property="twitter:creator" content="@duliqiang">
+  
+  <meta property="og:site_name" content="杜利强">
+  <meta property="og:url" content="https://keris.github.io/zh/post/credit-score-card/">
+  <meta property="og:title" content="信用评分卡模型 | 杜利强">
+  <meta property="og:description" content="通过此文了信用评分卡模型的方方面面"><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
+  <meta property="twitter:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="zh-Hans">
+  
+    
+      <meta property="article:published_time" content="2020-03-03T17:28:08&#43;08:00">
+    
+    <meta property="article:modified_time" content="2020-03-03T17:28:08&#43;08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://keris.github.io/zh/post/credit-score-card/"
+  },
+  "headline": "信用评分卡模型",
+  
+  "datePublished": "2020-03-03T17:28:08+08:00",
+  "dateModified": "2020-03-03T17:28:08+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "杜利强"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "杜利强",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img/https://keris.github.io/"
+    }
+  },
+  "description": "通过此文了信用评分卡模型的方方面面"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>信用评分卡模型 | 杜利强</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>搜索</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="搜索..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/zh/">杜利强</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="切换导航">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/zh/">杜利强</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#about"><span>关于我</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#posts"><span>博客</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#projects"><span>项目</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/cv-zh.pdf"><span>简历</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>信用评分卡模型</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Mar 3, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 分钟阅读时长
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="">金融风控</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h2>目录</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#信用评分卡模型">信用评分卡模型</a>
+      <ul>
+        <li><a href="#评分卡模型划分">评分卡模型划分</a></li>
+        <li><a href="#如何利用评分卡对用户进行评分">如何利用评分卡对用户进行评分？</a></li>
+        <li><a href="#小结">小结</a></li>
+      </ul>
+    </li>
+    <li><a href="#评分卡模型的开发">评分卡模型的开发</a>
+      <ul>
+        <li><a href="#评分卡模型开发流程">评分卡模型开发流程</a>
+          <ul>
+            <li><a href="#数据获取">数据获取</a></li>
+            <li><a href="#eda">EDA</a></li>
+            <li><a href="#数据预处理">数据预处理</a></li>
+            <li><a href="#数据清洗">数据清洗</a></li>
+            <li><a href="#变量分箱">变量分箱</a>
+              <ul>
+                <li><a href="#无监督分箱">无监督分箱</a></li>
+                <li><a href="#有监督分箱">有监督分箱</a></li>
+                <li><a href="#小结-1">小结</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="信用评分卡模型">信用评分卡模型</h2>
+<p>信用评分卡模型是一种最常见的金融风控手段。它是指根据客户的各种属性和行为数据构建一个信用评分模型，对客户进行信用评分，并据此决定是否给予授信以及授信的额度和利率，从而识别和减少在金融交易中存在的交易风险。</p>
+<p>以下为评分卡模型的示意图：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="credit-score-card-demo.png" data-caption="Credit Score Card Demo">
+<img data-src="credit-score-card-demo.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption data-pre="图" data-post=":" class="numbered">
+    Credit Score Card Demo
+  </figcaption>
+
+
+</figure>
+
+<h3 id="评分卡模型划分">评分卡模型划分</h3>
+<p>在不同的业务阶段我们可以构建不同的评分卡模型。根据借贷时间，评分卡模型可以划分为以下三种：</p>
+<ul>
+<li>贷前：申请评分卡（Application score card），又称为A卡</li>
+<li>贷中：行为评分卡（Behavior score card），又称为B卡</li>
+<li>贷后：催收评分卡（Collection score card），又称为C卡</li>
+</ul>
+<h3 id="如何利用评分卡对用户进行评分">如何利用评分卡对用户进行评分？</h3>
+<p>一个用户的评分等于基准分加上对客户各个属性的评分。对前面给出的示意图中的例子而言：</p>
+<pre><code>客户评分 = 基准分 + 年龄评分 + 性别评分 + 婚姻状况评分 + 学历评分 + 月收入评分
+</code></pre>
+<p>现有一客户，其年龄为27岁，性别男，已婚，本科学历，月收入为10k，那么他的评分为：</p>
+<pre><code>223(基准分) + 8(年龄评分) + 4(性别评分) + 8(婚姻状况评分) + 8(学历评分) + 13(月收入评分) = 264
+</code></pre>
+<h3 id="小结">小结</h3>
+<p>以上就是评分卡模型的具体用法。在前面的例子中，不难发现以下三个问题：</p>
+<ul>
+<li>如何选择用户的属性？</li>
+<li>评分卡模型采用的是对属性的分段进行评分，那么如何进行有效的分段？</li>
+<li>如何对每个分段进行评分？</li>
+</ul>
+<h2 id="评分卡模型的开发">评分卡模型的开发</h2>
+<h3 id="评分卡模型开发流程">评分卡模型开发流程</h3>
+<p>信用评分卡模型的开发一般包括数据获取，EDA，数据预处理，变量筛选，模型开发及评估，生成评分卡模型，模型上线及监测。典型的开发流程图如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="credit-score-card-flowchart.png" data-caption="Credit Score Card Flowchart">
+<img data-src="credit-score-card-flowchart.png" class="lazyload" alt="" width="70%" ></a>
+
+
+  
+  
+  <figcaption data-pre="图" data-post=":" class="numbered">
+    Credit Score Card Flowchart
+  </figcaption>
+
+
+</figure>
+
+<h4 id="数据获取">数据获取</h4>
+<p>数据主要有两个来源：</p>
+<ul>
+<li>金融机构自有数据：如用户的年龄，户籍，性别，收入，负债比，在本机构的借款和还款行为等</li>
+<li>第三方数据：如用户在其他机构的借贷行为，用户的消费行为数据等</li>
+</ul>
+<h4 id="eda">EDA</h4>
+<p>EDA为<a href="https://en.wikipedia.org/wiki/Exploratory_data_analysis">Exploratory Data Analysis</a>的简写，即探索性数据分析。这个阶段旨在了解数据的主要特性，如字段的缺失情况，异常值情况，中位数，分布等。最后制定一个合理的数据预处理方案。</p>
+<h4 id="数据预处理">数据预处理</h4>
+<p>数据预处理主要包括数据清洗，变量分箱和WOE编码。</p>
+<h4 id="数据清洗">数据清洗</h4>
+<p>数据清洗主要是对数据中的缺失值和异常值进行处理。一般我们选择删除缺失率超过某个阈值<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>（如30%，50%等）的变量。</p>
+<h4 id="变量分箱">变量分箱</h4>
+<p>所谓的分箱定义如下：</p>
+<ul>
+<li>对连续变量进行分段以离散化</li>
+<li>将离散变量的多个状态进行合并，减少离散变量的状态数</li>
+</ul>
+<p>通过分箱操作，我们达到了对变量分段的目的。</p>
+<p>常见的分箱类型如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="binning.png" data-caption="常见的变量分箱类型">
+<img data-src="binning.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption data-pre="图" data-post=":" class="numbered">
+    常见的变量分箱类型
+  </figcaption>
+
+
+</figure>
+
+<h5 id="无监督分箱">无监督分箱</h5>
+<p>无监督分箱主要包括三类：</p>
+<ul>
+<li>等频分箱：把自变量的值按从小到大排序，将自变量的取值个数等分为<code>k</code>部分，每部分作为一个分箱</li>
+<li>等距分箱：把自变量的值按从小到大排序，将自变量的取值范围分为<code>k</code>个等距的区间，每个区间作为一个分箱</li>
+<li>聚类分箱：用<code>k-means</code>等聚类法将自变量分为<code>k</code>类，但需要在聚类过程中保证分箱的有序性</li>
+</ul>
+<p><strong>小结：</strong> 无监督分箱仅考虑了各个变量自身的结构，并没有考虑自变量与目标变量之间的关系，因此这种分箱方法不一定会带来模型性能的提升。</p>
+<h5 id="有监督分箱">有监督分箱</h5>
+<p>有监督分箱主要包括Split分箱和Merge分箱。</p>
+<ol>
+<li>Split分箱是一种自上而下的分箱方法，其和决策树比较相似，切分点的选择指标主要有entropy， gini指数和IV值等。</li>
+<li>Merge分箱是一种自下而上的分箱方法，常见的merge分箱为ChiMerge分箱。</li>
+</ol>
+<p>ChiMerge分箱的基本思想是：<em>如果两个相邻区间具有相似的类分布，则合并它们，否则保持不变。ChiMerge通常采用卡方值来度量两相邻区间的类分布的相似性。</em></p>
+<p>计算卡方值的公式如下：</p>
+<p>$$
+\chi^2 = \sum_{i=1}^2 \sum_{j=1}^k \frac{(A_{ij} - E_{ij})^2}{E_{ij}}
+$$</p>
+<p>其中：</p>
+<p>$k =$ 类别数目</p>
+<p>$A_{ij} =$ 第 $i$ 个区间中第$j$个类别的样本数目</p>
+<p>$E_{ij} = A_{ij}$的期望频率$=\frac{R_i \times C_j}{N}$，$R_i =$第$i$区间的样本数目$= \sum_{j=1}^k A_{ij}$，$C_j = $第$j$个类别的样本数目$= \sum_{i=1}^2 A_{ij}$</p>
+<p>ChiMerge算法包含一个初始化步和一个自底向上的合并过程。</p>
+<ol>
+<li>初始化：将需要离散化的属性的值按从小到大排序，将每个样本作为一个区间</li>
+<li>合并区间
+<ol>
+<li>计算每对相邻区间的$\chi^2$</li>
+<li>合并具有最小$\chi^2$的相邻区间</li>
+</ol>
+</li>
+<li>如果所有相邻区间对的$\chi^2$超过了$\chi^2-threshold$，则停止，否则回到第2步</li>
+</ol>
+<p>如何确定$\chi^2-threshold$？为此我们需要选择一个想要的显著性水平和自有度，然后通过查表或者公式获得对应的$\chi^2$。其中自由度为<code>类别数目 - 1</code>，例如，当有3个类别时，自由度为2。</p>
+<p>除了使用$\chi^2-threshold$，还可以指定<code>最小区间数</code>和<code>最大区间数</code>来确保不会产生太少或者太多的区间。</p>
+<p>在金融风控中，当我们应用ChiMerge时，在初始化时往往有以下操作：</p>
+<ul>
+<li>连续值按升序排列，离散值首先转化为坏客户的占比，然后再按升序排列</li>
+<li>为了减少计算量，对于状态数大于某一阈值（建议为100）的变量，利用等频分箱进行粗分箱</li>
+<li>若有缺失值，则缺失值单独作为一个分箱</li>
+</ul>
+<p>在分箱完后还会做进一步的处理：</p>
+<ul>
+<li>对于坏客户占比为0或者1的分箱进行合并（一个分箱内不能全为好客户或者坏客户）</li>
+<li>对于样本占比超过95%的箱子进行删除</li>
+<li>检查缺失分箱的坏客户比例是否和非缺失分箱相等，如果相等，进行合并</li>
+</ul>
+<h5 id="小结-1">小结</h5>
+<ol>
+<li>分箱可以有效处理缺失值和异常值</li>
+<li>分箱后数据和模型会更稳定</li>
+<li>分箱可以简化逻辑回归模型，降低过拟合风险，提高泛化能力</li>
+<li>分箱将特征统一变换为类别型变量</li>
+<li>分箱后变量才可以使用标准的评分卡格式</li>
+</ol>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>阈值的选择需要根据实际情况确定。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="">评分卡</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://keris.github.io/zh/post/credit-score-card/&amp;text=%e4%bf%a1%e7%94%a8%e8%af%84%e5%88%86%e5%8d%a1%e6%a8%a1%e5%9e%8b" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://keris.github.io/zh/post/credit-score-card/&amp;t=%e4%bf%a1%e7%94%a8%e8%af%84%e5%88%86%e5%8d%a1%e6%a8%a1%e5%9e%8b" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://keris.github.io/zh/post/credit-score-card/&amp;title=%e4%bf%a1%e7%94%a8%e8%af%84%e5%88%86%e5%8d%a1%e6%a8%a1%e5%9e%8b" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="portrait mr-3" src="/zh/authors/admin/avatar_hu2034d908ab937255cae4e64a31823ebd_46494_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://keris.github.io/">杜利强</a></h5>
+      <h6 class="card-subtitle">开发工程师</h6>
+      <p class="card-text">我的兴趣包括互联网金融风控、信息检索排序、推荐系统。</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://weibo.com/1855772372" target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/duliqiang" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/keris" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.3/mermaid.min.js" integrity="" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/zh/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"没有找到结果","placeholder":"搜索...","results":"搜索结果"};
+      const content_type = {
+        'post': "文章",
+        'project': "项目",
+        'publication' : "出版物",
+        'talk' : "演讲"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">引用</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> 复制
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> 下载
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
