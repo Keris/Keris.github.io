@@ -5,12 +5,20 @@
     <link>https://keris.github.io/zh/tags/</link>
       <atom:link href="https://keris.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 03 Mar 2020 17:28:08 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Wed, 11 Mar 2020 19:20:11 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>Tags</title>
       <link>https://keris.github.io/zh/tags/</link>
     </image>
+    
+    <item>
+      <title>评估指标</title>
+      <link>https://keris.github.io/zh/tags/%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</link>
+      <pubDate>Wed, 11 Mar 2020 19:20:11 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>评分卡</title>

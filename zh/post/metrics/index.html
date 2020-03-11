@@ -28,10 +28,10 @@
   
     
   
-  <meta name="description" content="杜利强的站点">
+  <meta name="description" content="了解机器学习模型的评估指标">
 
   
-  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/metrics/">
 
   
 
@@ -213,14 +213,12 @@
 
 
   
-  <link rel="alternate" href="/zh/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/index.xml" type="application/rss+xml" title="杜利强">
-  
 
   <link rel="manifest" href="/zh/index.webmanifest">
   <link rel="icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="https://keris.github.io/zh/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
+  <link rel="canonical" href="https://keris.github.io/zh/post/metrics/">
 
   
   
@@ -237,18 +235,65 @@
   <meta property="twitter:creator" content="@duliqiang">
   
   <meta property="og:site_name" content="杜利强">
-  <meta property="og:url" content="https://keris.github.io/zh/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">
-  <meta property="og:title" content="机器学习 | 杜利强">
-  <meta property="og:description" content="杜利强的站点"><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
+  <meta property="og:url" content="https://keris.github.io/zh/post/metrics/">
+  <meta property="og:title" content="评估指标 | 杜利强">
+  <meta property="og:description" content="了解机器学习模型的评估指标"><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="zh-Hans">
   
-    <meta property="og:updated_time" content="2020-03-11T19:20:11&#43;08:00">
+    
+      <meta property="article:published_time" content="2020-03-11T19:20:11&#43;08:00">
+    
+    <meta property="article:modified_time" content="2020-03-11T19:20:11&#43;08:00">
   
 
   
 
 
+    
 
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://keris.github.io/zh/post/metrics/"
+  },
+  "headline": "评估指标",
+  
+  "datePublished": "2020-03-11T19:20:11+08:00",
+  "dateModified": "2020-03-11T19:20:11+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "杜利强"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "杜利强",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img/https://keris.github.io/"
+    }
+  },
+  "description": "了解机器学习模型的评估指标"
+}
+</script>
+
+  
 
   
 
@@ -256,10 +301,13 @@
   
 
 
+  
 
 
 
-  <title>机器学习 | 杜利强</title>
+
+
+  <title>评估指标 | 杜利强</title>
 
 </head>
 
@@ -471,63 +519,466 @@
 </nav>
 
 
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>评估指标</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Mar 11, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 分钟阅读时长
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="">机器学习</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h2>目录</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#混淆矩阵">混淆矩阵</a></li>
+    <li><a href="#accuracy">Accuracy</a></li>
+    <li><a href="#precision">Precision</a></li>
+    <li><a href="#recall">Recall</a></li>
+    <li><a href="#f1-score">F1 score</a></li>
+    <li><a href="#f_beta-score">$F_\beta$ score</a></li>
+    <li><a href="#roc-curve">ROC Curve</a></li>
+    <li><a href="#auc">AUC</a></li>
+  </ul>
+</nav>
+<h2 id="混淆矩阵">混淆矩阵</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>guessed positive</th>
+<th>guessed negative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>positive</td>
+<td>true positives, #TP</td>
+<td>false negatives, #FN</td>
+</tr>
+<tr>
+<td>negative</td>
+<td>false positives, #FP</td>
+<td>true negatives, #TN</td>
+</tr>
+</tbody>
+</table>
+<p>假设某个模型在一组样本上的表现如下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="model-performance.png" >
+<img data-src="model-performance.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<p>其中，蓝色的点为正例（positives)，橙色的点为负例（negatives），则混淆矩阵如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>guessed positive</th>
+<th>guessed negative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>positive</td>
+<td>6</td>
+<td>1</td>
+</tr>
+<tr>
+<td>negative</td>
+<td>2</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<h2 id="accuracy">Accuracy</h2>
+<p>Accuracy，也就是准确率，表示样本中分类正确所占的比例。</p>
+<p>$$\text{Accuracy} = \frac{\text{#TP} + \text{#TN}}{\text{#TP} + \text{#FP} + \text{#TN} + \text{#FN}}$$</p>
+<p>其中:</p>
+<ul>
+<li><code>#TP</code>表示<code>true positive</code>的数目</li>
+<li><code>#FP</code>表示<code>false positive</code>的数目</li>
+<li><code>#TN</code>表示<code>true negative</code>的数目</li>
+<li><code>#FN</code>表示<code>false negative</code>的数目</li>
+</ul>
+<p>对于图1中的模型，准确率计算如下：</p>
+<p>$$\text{Accuracy} = \frac{6 + 5}{6 + 1 + 5 + 2} = \frac{11}{14}= 78.57%$$</p>
+<p>准确率在数据偏斜的情况下将不再适用。比如在下图所示的例子中：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="credit-card-fraud.png" >
+<img data-src="credit-card-fraud.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<p>模型需要找出良好的交易，但我们的样本中绝大部分都是良好的交易，这导致无论我们的模型如何，它都具有很高的准确率，如图中所示为<code>99.83%</code>！，此时准确率将不能够评估我们的模型。</p>
+<h2 id="precision">Precision</h2>
+<p>Precision即精度，表示在所有预测为正例的样本中有多少是真正例。</p>
+<p>$$\text{Precision} = \frac{\text{#TP}}{\text{#TP} + \text{#FP}}$$</p>
+<p>对于图1中的模型，精度计算如下：</p>
+<p>$$\text{Precision} = \frac{6}{6 + 2} = \frac{6}{8} = 75%$$</p>
+<h2 id="recall">Recall</h2>
+<p>Recall即为召回率，所有的正例样本中真正例所占的比例：</p>
+<p>$$\text{Recall} = \frac{\text{#TP}}{\text{#TP} + \text{#FN}}$$</p>
+<p>对于图1中的模型，召回率计算如下：</p>
+<p>$$\text{Recall} = \frac{6}{6 + 1} = \frac{6}{7} = 85.71%$$</p>
+<h2 id="f1-score">F1 score</h2>
+<p>F1-score定义如下：</p>
+<p>$$\text{F1} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$</p>
+<p>可以看到F1-score综合了精度和召回率，为精度和召回率的调和平均：<strong>在召回率不变的条件下，精度越高，F1-score越大；在精度不变的条件下，召回率越高，F1-score越大</strong>。</p>
+<h2 id="f_beta-score">$F_\beta$ score</h2>
+<p>$F_\beta-\text{score}$定义为：</p>
+<p>$$F_\beta = (1 + \beta^2) \times \frac{\text{Precision} \times \text{Recall}}{\beta^2 \times \text{Precision} + \text{Recall}}$$</p>
+<p>可以看出来，当$\beta = 1$时即为F1 score。</p>
+<p>下面我们看下$F_\beta$随$\beta$变化的情况：</p>
+<ol>
+<li>当$\beta = 0$时，通过计算不难得出$F_0 = \text{Precision}$;</li>
+<li>相反，当$\beta$取很大的值时，$F_\beta$将趋近召回率。</li>
+</ol>
+<p>小结：当$\beta$取较小的值时，精度比召回率重要，如$F_{0.5}$ score；当$\beta$取较大值时召回率比精度重要，如$F_2$ score。</p>
+<h2 id="roc-curve">ROC Curve</h2>
+<p>ROC Curve的全称为Receiver Operating Characteristic Curve，即受试者工作特性缺陷，它刻画了模型在所有分类阈值下的表现。</p>
+<p>要绘制该曲线，我们需要计算以下两个参数：</p>
+<ul>
+<li>True Positive Rate, TPR</li>
+<li>False Positive Rate, FPR</li>
+</ul>
+<p>TPR，表示所有的正例样本中真正例的占比，不难发现，这其实跟召回率一个概念：</p>
+<p>$$\text{TPR} = \frac{\text{#TP}}{\text{#TP} + \text{#FN}}$$</p>
+<p>FPR，表示所有的负例样本中假正例的占比：</p>
+<p>$$\text{FPR} = \frac{\text{#FP}}{\text{#FP} + \text{#TN}}$$</p>
+<p>在不同的分类阈值下绘制TPR vs. FPR便得到ROC曲线：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="ROCCurve.svg" >
+<img data-src="ROCCurve.svg" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<h2 id="auc">AUC</h2>
+<p>AUC的全称为Area Under a ROC Curve，即ROC曲线下的面积。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="AUC.png" >
+<img data-src="AUC.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="">评估指标</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://keris.github.io/zh/post/metrics/&amp;text=%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://keris.github.io/zh/post/metrics/&amp;t=%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://keris.github.io/zh/post/metrics/&amp;title=%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 
 
 
 
-
-
-
-
-
-
-
-  
 
   
   
   
     
   
-<div class="universal-wrapper pt-3">
-  <h1>机器学习</h1>
-
   
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
-  
-
-  
-  
-  <div>
-    <h2><a href="/zh/post/metrics/">评估指标</a></h2>
-    <div class="article-style">
+  <div class="media author-card content-widget-hr">
+    
       
-      了解机器学习模型的评估指标
+      <img class="portrait mr-3" src="/zh/authors/admin/avatar_hu2034d908ab937255cae4e64a31823ebd_46494_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://keris.github.io/">杜利强</a></h5>
+      <h6 class="card-subtitle">开发工程师</h6>
+      <p class="card-text">我的兴趣包括互联网金融风控、信息检索排序、推荐系统。</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
       
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://weibo.com/1855772372" target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/duliqiang" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/keris" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
     </div>
   </div>
+
+
+
+
+
+
+
+
+
   
-  <div>
-    <h2><a href="/zh/post/logistic-regression/">逻辑回归（Logistic Regression）</a></h2>
-    <div class="article-style">
-      
-      理解逻辑回归中涉及的术语以及从最大似然到最小化代价函数
-      
-    </div>
+  
+
+
+
   </div>
-  
-
-  
-
-</div>
+</article>
 
       
 
