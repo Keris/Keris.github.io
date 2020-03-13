@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="杜利强">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="如何选择一个好的机器模型，欠拟合和过拟合判断">
+
+  
+  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/model-selection/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#3f51b5">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/zh/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="https://keris.github.io/zh/post/model-selection/">
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@duliqiang">
+  <meta property="twitter:creator" content="@duliqiang">
+  
+  <meta property="og:site_name" content="杜利强">
+  <meta property="og:url" content="https://keris.github.io/zh/post/model-selection/">
+  <meta property="og:title" content="模型选择 | 杜利强">
+  <meta property="og:description" content="如何选择一个好的机器模型，欠拟合和过拟合判断"><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
+  <meta property="twitter:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="zh-Hans">
+  
+    
+      <meta property="article:published_time" content="2020-03-13T19:14:06&#43;08:00">
+    
+    <meta property="article:modified_time" content="2020-03-13T19:14:06&#43;08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://keris.github.io/zh/post/model-selection/"
+  },
+  "headline": "模型选择",
+  
+  "datePublished": "2020-03-13T19:14:06+08:00",
+  "dateModified": "2020-03-13T19:14:06+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "杜利强"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "杜利强",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img/https://keris.github.io/"
+    }
+  },
+  "description": "如何选择一个好的机器模型，欠拟合和过拟合判断"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>模型选择 | 杜利强</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>搜索</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="搜索..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/zh/">杜利强</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="切换导航">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/zh/">杜利强</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#about"><span>关于我</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#posts"><span>博客</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/zh/#projects"><span>项目</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/cv-zh.pdf"><span>简历</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>模型选择</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Mar 13, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 分钟阅读时长
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h2>目录</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#模型选择">模型选择</a>
+      <ul>
+        <li><a href="#两种类型的错误">两种类型的错误</a></li>
+        <li><a href="#模型复杂图">模型复杂图</a></li>
+        <li><a href="#k折交叉验证">K折交叉验证</a></li>
+        <li><a href="#学习曲线">学习曲线</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="模型选择">模型选择</h2>
+<h3 id="两种类型的错误">两种类型的错误</h3>
+<p>在选择模型时我们可能犯两种类型的错误，选择过于简单的模型或者过于复杂的模型，前者对应<strong>欠拟合</strong>，后者对应<strong>过拟合</strong>。</p>
+<p>欠拟合发生时，模型具有高偏差（high bias），模型不能很好地拟合训练集；过拟合发生时，模型具有高方差（high variance），模型试图对训练数据进行记忆而不是学习其特点，在训练集上表现很好，但在测试集上表现很差。</p>
+<p>下面我们看一个欠拟合的例子：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="underfitting.png" >
+<img data-src="underfitting.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<p>在这个例子中，左边的模型使用一个二次曲线去拟合数据点，而右边则是使用直线去拟合，可以发现直线并不能很好地拟合数据，这就是欠拟合的情形。</p>
+<p>了解了欠拟合，我们来看一个过拟合的例子：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="overfitting.png" data-caption="Overfitting">
+<img data-src="overfitting.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Overfitting
+  </figcaption>
+
+
+</figure>
+
+<p>在这个例子中，左边的模型使用一个二次曲线去拟合数据点，而右边的模型试图对训练集进行记忆，因而它在训练集上表现很好，但它没有学习到数据的良好属性以很好地泛化到测试集，这就是过拟合的情形。</p>
+<p>前面两个例子属于回归模型，在分类模型中我们也会看到欠拟合和过拟合。</p>
+<p>分类模型中的欠拟合：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="underfitting-classification.png" data-caption="Underfitting in a Classification Model">
+<img data-src="underfitting-classification.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Underfitting in a Classification Model
+  </figcaption>
+
+
+</figure>
+
+<p>分类模型中的过拟合：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="overfitting-classification.png" data-caption="Overfitting in a Classification Model">
+<img data-src="overfitting-classification.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Overfitting in a Classification Model
+  </figcaption>
+
+
+</figure>
+
+<p>最后，我们总结一下：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="tradeoff-high-bias-high-variance.png" data-caption="Tradeoff between High Bias and High Variance">
+<img data-src="tradeoff-high-bias-high-variance.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Tradeoff between High Bias and High Variance
+  </figcaption>
+
+
+</figure>
+
+<h3 id="模型复杂图">模型复杂图</h3>
+<p>在前面一部分，我们学习了欠拟合和过拟合，在这一部分，我们了解一下模型复杂图，即评估指标随着模型复杂性的提升如何变化。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="model-complexity-graph.png" data-caption="Model Complexity Graph">
+<img data-src="model-complexity-graph.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Model Complexity Graph
+  </figcaption>
+
+
+</figure>
+
+<p>在上面这个图中，左侧对应欠拟合的情形，此时模型在训练集和验证集上都具有较大的误差；右侧对应过拟合的情形，模型在训练集上具有较小的误差，而在验证集上具有较大的误差；圈起来的那个地方对应刚刚好的情形，此时模型在训练集和验证集上都具有较小的误差，过了这个点，在训练集上的误差持续减小，但在验证集上的误差开始不断变大。</p>
+<p>可能你注意到了一个新概念，<strong>验证集</strong>，为什么不用测试集？</p>
+<p>在构建机器学习模型时，一个务必要坚持的原则是<strong>测试集只能用于最后的模型评估，而不能参与模型训练</strong>。那么我们怎么选择一个好的模型，验证集即用于此目的。</p>
+<p>那怎么得到验证集？下图可以给你一个直观的理解：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="cross-validation.png" data-caption="Cross Validation">
+<img data-src="cross-validation.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Cross Validation
+  </figcaption>
+
+
+</figure>
+
+<p>可以看到，训练集中的一小部分被用来作为验证集，借助验证集我们评估模型是否欠拟合，过拟合或者刚刚好，即验证集用来进行决策，帮助我们选择一个好的模型。最后，测试集用于最终的模型评估。</p>
+<h3 id="k折交叉验证">K折交叉验证</h3>
+<p>可能你注意到了，由于从训练集中划出了一小部分作为验证集，这使得训练数据变少了，这会对模型产生不利因素，为此你需要使用K折交叉验证。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="k-fold-1.png" >
+<img data-src="k-fold-1.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<p>在上面这个图中，我们有12个样本，其中实心的用于训练，空心的用于测试<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。这是一个4折交叉验证，每次其中一折用于测试，剩余三折用于训练。第一次，第一折样本<code>[0,1,2]</code>用于测试；第二次，第二折样本<code>[3,4,5]</code>用于测试；第三次，第三折样本<code>[6,7,8]</code>用于测试；最后一次，最后一折样本<code>[9,10,11]</code>用于测试。 可以看到，经过4折交叉验证，<strong>训练集中的所有样本都参与了模型训练</strong>。</p>
+<p>接下来，我们看看如何在<code>sklearn</code>中进行K折交叉验证：</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.model_selection import KFold
+kf = KFold(4)
+X = np.arange(12)
+for train_indices, test_indices in kf.split(X):
+    print(train_indices, test_indices)
+</code></pre>
+<p>以上代码产生如下结果：</p>
+<pre><code>[ 3  4  5  6  7  8  9 10 11] [0 1 2]
+[ 0  1  2  6  7  8  9 10 11] [3 4 5]
+[ 0  1  2  3  4  5  9 10 11] [6 7 8]
+[0 1 2 3 4 5 6 7 8] [ 9 10 11]
+</code></pre>
+<p>可以看到，输出结果跟图中的例子完全一致。可能你也注意到了，在这个例子中，每一折都是顺序产生，其实我们可以进行随机选取。</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="k-fold-2.png" >
+<img data-src="k-fold-2.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+同样地，我们看看在<code>sklearn</code>中如何做：</p>
+<pre><code class="language-python">import numpy as np
+from sklearn.model_selection import KFold
+kf = KFold(4, shuffle=True)
+X = np.arange(12)
+for train_indices, test_indices in kf.split(X):
+    print(train_indices, test_indices)
+</code></pre>
+<p>以上代码的结果如下：</p>
+<pre><code>[0 1 2 3 4 6 7 8 9] [ 5 10 11]
+[ 0  1  2  4  5  6  7 10 11] [3 8 9]
+[ 0  1  3  4  5  8  9 10 11] [2 6 7]
+[ 2  3  5  6  7  8  9 10 11] [0 1 4]
+</code></pre>
+<p>可以看到，每一折中的样本不再连续，而是随机抽取的。</p>
+<h3 id="学习曲线">学习曲线</h3>
+<p>在模型的训练过程中，通过绘制训练误差和验证误差 vs. 参与训练的样本数，我们可以得到两条曲线。</p>
+<p>下面我们来看一个图：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="learning-curves-1.png" data-caption="Learning Curves">
+<img data-src="learning-curves-1.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Learning Curves
+  </figcaption>
+
+
+</figure>
+
+<p>图的左侧是一个高偏差的模型（<em>对应前述的线性模型</em>），即模型欠拟合。在训练样本比较少时，模型能很好地拟合数据，因此训练误差很小，但当评估模型时，由于训练样本较少，模型的表现不会太好，因此验证误差会很大。随着参与训练的样本增加，更多的样本需要拟合，拟合难度增加，训练误差可能会增大一点。此时，由于使用了更多的训练数据，我们会得到一个稍微好点的模型，因此验证误差会减小一点，但不会太多。最后，当更多的数据加入训练，训练误差会增加一点，验证误差会减小一点，它们会越来越靠近。</p>
+<p>图的中间一个刚刚好的模型（<em>对应二次曲线模型</em>）。跟前面描述的情况一样，随着参与训练的样本增加，训练误差会增加，验证误差会减小，最后它们会越来越接近，不同于左侧的情况，<strong>验证误差和训练误差会收敛到比较低的位置</strong>。</p>
+<p>图的右侧是一个高方差的模型（<em>对应高阶拟合模型</em>），一开始的情况跟前面两个模型的情况一样，但随着参与训练的样本增加，训练误差会增加，但会比较小，因为此时的模型试图对训练集进行记忆，同时验证误差会减小，但会比较大。最后，<strong>验证误差和训练误差会收敛，但不会靠近</strong>。</p>
+<p>接下来，我们看一个具体的例子：</p>
+<p>样本包含两类数据，如下所示：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="data-visualization.png" data-caption="Scatter Plot of data">
+<img data-src="data-visualization.png" class="lazyload" alt="" ></a>
+
+
+  
+  
+  <figcaption>
+    Scatter Plot of data
+  </figcaption>
+
+
+</figure>
+
+<p>针对该数据，我们拟合以下三个模型，看看它们的学习曲线如何：</p>
+<ul>
+<li>逻辑回归模型</li>
+<li>决策树模型</li>
+<li>支持向量机模型</li>
+</ul>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.svm import SVC
+
+# Load data
+df = pd.read_csv('data.csv')
+X = np.array(df[['x1', 'x2']])
+y = np.array(df['y'])
+
+# Fix random seed
+np.random.seed(55)
+
+def randomize(X, Y):
+    permutation = np.random.permutation(Y.shape[0])
+    X2 = X[permutation,:]
+    Y2 = Y[permutation]
+    return X2, Y2
+
+X2, y2 = randomize(X, y)
+
+# Construct three models to draw learning curves
+estimators = {}
+
+# Logistic Regression
+estimators['LR'] = LogisticRegression()
+
+# Decision Tree
+estimators['DT'] = GradientBoostingClassifier()
+
+# Support Vector Machine
+estimators['SVC'] = SVC(kernel='rbf', gamma=1000)
+
+plt.figure(figsize=(12, 6))
+
+for i, m in enumerate(estimators):
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimators[m], X2, y2, cv=None, n_jobs=1, train_sizes=np.linspace(.1, 1.0, 3))
+    train_scores_mean = np.mean(train_scores, axis=1)
+    # train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    # test_scores_std = np.std(test_scores, axis=1)
+
+    plt.subplot(1, 3, i + 1)
+    plt.grid()
+
+    plt.title(&quot;Learning Curves of {}&quot;.format(m))
+    plt.xlabel(&quot;Training examples&quot;)
+    plt.ylabel(&quot;Score&quot;)
+
+    plt.plot(train_scores_mean, 'o-', color=&quot;g&quot;,
+             label=&quot;Training score&quot;)
+    plt.plot(test_scores_mean, 'o-', color=&quot;y&quot;,
+             label=&quot;Cross-validation score&quot;)
+
+
+    plt.legend(loc=&quot;best&quot;)
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+<p>以上代码将生成三个模型的学习曲线，我们来看一看：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="learning-curves.png" >
+<img data-src="learning-curves.png" class="lazyload" alt="" ></a>
+
+
+
+</figure>
+
+<p>这里我们要注意的一个地方是图中使用了得分而不是误差，得分跟误差恰好相反，所以在看图时我们要在脑海里试着将其倒过来。</p>
+<p>根据前面讲的不难分析出，决策树模型刚刚好，逻辑回归模型欠拟合，而支持向量机模型过拟合。
+比如对支持向量机模型而言，模型在训练集上一直具有很高的得分（接近1），这意味着模型能够很好的拟合训练集，因此具有很小的训练误差，但在验证集上，得分一开始就不高，接着是减小，后趋于不变，这意味验证误差从一个较小值变大，然后收敛。训练得分和验证得分最后收敛，但不靠近。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>这里的测试实为验证，不同于最终的测试，后者指模型评估，前者为模型验证。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://keris.github.io/zh/post/model-selection/&amp;text=%e6%a8%a1%e5%9e%8b%e9%80%89%e6%8b%a9" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://keris.github.io/zh/post/model-selection/&amp;t=%e6%a8%a1%e5%9e%8b%e9%80%89%e6%8b%a9" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://keris.github.io/zh/post/model-selection/&amp;title=%e6%a8%a1%e5%9e%8b%e9%80%89%e6%8b%a9" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="portrait mr-3" src="/zh/authors/admin/avatar_hu2034d908ab937255cae4e64a31823ebd_46494_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://keris.github.io/">杜利强</a></h5>
+      <h6 class="card-subtitle">开发工程师</h6>
+      <p class="card-text">我的兴趣包括互联网金融风控、信息检索排序、推荐系统。</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://weibo.com/1855772372" target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/duliqiang" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/keris" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.3/mermaid.min.js" integrity="" crossorigin="anonymous" title="mermaid"></script>
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/zh/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"没有找到结果","placeholder":"搜索...","results":"搜索结果"};
+      const content_type = {
+        'post': "文章",
+        'project': "项目",
+        'publication' : "出版物",
+        'talk' : "演讲"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">引用</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> 复制
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> 下载
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

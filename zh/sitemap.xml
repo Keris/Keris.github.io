@@ -3,6 +3,41 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://keris.github.io/zh/post/</loc>
+    <lastmod>2020-03-13T19:14:06+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://keris.github.io/en/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://keris.github.io/zh/post/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://keris.github.io/zh/</loc>
+    <lastmod>2020-03-13T19:14:06+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://keris.github.io/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://keris.github.io/zh/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://keris.github.io/zh/post/model-selection/</loc>
+    <lastmod>2020-03-13T19:14:06+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://keris.github.io/zh/categories/</loc>
     <lastmod>2020-03-11T19:20:11+08:00</lastmod>
     <xhtml:link
@@ -14,21 +49,6 @@
                 rel="alternate"
                 hreflang="zh"
                 href="https://keris.github.io/zh/categories/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://keris.github.io/zh/post/</loc>
-    <lastmod>2020-03-11T19:20:11+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://keris.github.io/en/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://keris.github.io/zh/post/"
                 />
   </url>
   
@@ -50,21 +70,6 @@
   <url>
     <loc>https://keris.github.io/zh/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2020-03-11T19:20:11+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://keris.github.io/zh/</loc>
-    <lastmod>2020-03-11T19:20:11+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://keris.github.io/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://keris.github.io/zh/"
-                />
   </url>
   
   <url>
