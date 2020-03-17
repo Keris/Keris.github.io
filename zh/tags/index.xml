@@ -5,12 +5,36 @@
     <link>https://keris.github.io/zh/tags/</link>
       <atom:link href="https://keris.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Wed, 11 Mar 2020 19:20:11 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 17 Mar 2020 10:13:02 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>Tags</title>
       <link>https://keris.github.io/zh/tags/</link>
     </image>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://keris.github.io/zh/tags/c&#43;&#43;/</link>
+      <pubDate>Tue, 17 Mar 2020 10:13:02 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>variadic-template</title>
+      <link>https://keris.github.io/zh/tags/variadic-template/</link>
+      <pubDate>Tue, 17 Mar 2020 10:13:02 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/variadic-template/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>变参模版</title>
+      <link>https://keris.github.io/zh/tags/%E5%8F%98%E5%8F%82%E6%A8%A1%E7%89%88/</link>
+      <pubDate>Tue, 17 Mar 2020 10:13:02 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/%E5%8F%98%E5%8F%82%E6%A8%A1%E7%89%88/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>评估指标</title>
