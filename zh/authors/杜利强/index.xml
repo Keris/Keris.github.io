@@ -119,6 +119,551 @@ $ hello,world
     </item>
     
     <item>
+      <title>机器学习模型选择</title>
+      <link>https://keris.github.io/zh/post/model-selection/</link>
+      <pubDate>Fri, 13 Mar 2020 19:14:06 +0800</pubDate>
+      <guid>https://keris.github.io/zh/post/model-selection/</guid>
+      <description>&lt;h2&gt;目录&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#模型选择&#34;&gt;模型选择&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#两种类型的错误&#34;&gt;两种类型的错误&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#模型复杂图&#34;&gt;模型复杂图&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#k折交叉验证&#34;&gt;K折交叉验证&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#学习曲线&#34;&gt;学习曲线&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h2 id=&#34;模型选择&#34;&gt;模型选择&lt;/h2&gt;
+&lt;h3 id=&#34;两种类型的错误&#34;&gt;两种类型的错误&lt;/h3&gt;
+&lt;p&gt;在选择模型时我们可能犯两种类型的错误，选择过于简单的模型或者过于复杂的模型，前者对应&lt;strong&gt;欠拟合&lt;/strong&gt;，后者对应&lt;strong&gt;过拟合&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;欠拟合发生时，模型具有高偏差（high bias），模型不能很好地拟合训练集；过拟合发生时，模型具有高方差（high variance），模型试图对训练数据进行记忆而不是学习其特点，在训练集上表现很好，但在测试集上表现很差。&lt;/p&gt;
+&lt;p&gt;下面我们看一个欠拟合的例子：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;underfitting.png&#34; &gt;
+&lt;img data-src=&#34;underfitting.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;在这个例子中，左边的模型使用一个二次曲线去拟合数据点，而右边则是使用直线去拟合，可以发现直线并不能很好地拟合数据，这就是欠拟合的情形。&lt;/p&gt;
+&lt;p&gt;了解了欠拟合，我们来看一个过拟合的例子：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;overfitting.png&#34; data-caption=&#34;Overfitting&#34;&gt;
+&lt;img data-src=&#34;overfitting.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Overfitting
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;在这个例子中，左边的模型使用一个二次曲线去拟合数据点，而右边的模型试图对训练集进行记忆，因而它在训练集上表现很好，但它没有学习到数据的良好属性以很好地泛化到测试集，这就是过拟合的情形。&lt;/p&gt;
+&lt;p&gt;前面两个例子属于回归模型，在分类模型中我们也会看到欠拟合和过拟合。&lt;/p&gt;
+&lt;p&gt;分类模型中的欠拟合：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;underfitting-classification.png&#34; data-caption=&#34;Underfitting in a Classification Model&#34;&gt;
+&lt;img data-src=&#34;underfitting-classification.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Underfitting in a Classification Model
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;分类模型中的过拟合：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;overfitting-classification.png&#34; data-caption=&#34;Overfitting in a Classification Model&#34;&gt;
+&lt;img data-src=&#34;overfitting-classification.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Overfitting in a Classification Model
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;最后，我们总结一下：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;tradeoff-high-bias-high-variance.png&#34; data-caption=&#34;Tradeoff between High Bias and High Variance&#34;&gt;
+&lt;img data-src=&#34;tradeoff-high-bias-high-variance.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Tradeoff between High Bias and High Variance
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;模型复杂图&#34;&gt;模型复杂图&lt;/h3&gt;
+&lt;p&gt;在前面一部分，我们学习了欠拟合和过拟合，在这一部分，我们了解一下模型复杂图，即评估指标随着模型复杂性的提升如何变化。&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;model-complexity-graph.png&#34; data-caption=&#34;Model Complexity Graph&#34;&gt;
+&lt;img data-src=&#34;model-complexity-graph.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Model Complexity Graph
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;在上面这个图中，左侧对应欠拟合的情形，此时模型在训练集和验证集上都具有较大的误差；右侧对应过拟合的情形，模型在训练集上具有较小的误差，而在验证集上具有较大的误差；圈起来的那个地方对应刚刚好的情形，此时模型在训练集和验证集上都具有较小的误差，过了这个点，在训练集上的误差持续减小，但在验证集上的误差开始不断变大。&lt;/p&gt;
+&lt;p&gt;可能你注意到了一个新概念，&lt;strong&gt;验证集&lt;/strong&gt;，为什么不用测试集？&lt;/p&gt;
+&lt;p&gt;在构建机器学习模型时，一个务必要坚持的原则是&lt;strong&gt;测试集只能用于最后的模型评估，而不能参与模型训练&lt;/strong&gt;。那么我们怎么选择一个好的模型，验证集即用于此目的。&lt;/p&gt;
+&lt;p&gt;那怎么得到验证集？下图可以给你一个直观的理解：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;cross-validation.png&#34; data-caption=&#34;Cross Validation&#34;&gt;
+&lt;img data-src=&#34;cross-validation.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Cross Validation
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;可以看到，训练集中的一小部分被用来作为验证集，借助验证集我们评估模型是否欠拟合，过拟合或者刚刚好，即验证集用来进行决策，帮助我们选择一个好的模型。最后，测试集用于最终的模型评估。&lt;/p&gt;
+&lt;h3 id=&#34;k折交叉验证&#34;&gt;K折交叉验证&lt;/h3&gt;
+&lt;p&gt;可能你注意到了，由于从训练集中划出了一小部分作为验证集，这使得训练数据变少了，这会对模型产生不利因素，为此你需要使用K折交叉验证。&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;k-fold-1.png&#34; &gt;
+&lt;img data-src=&#34;k-fold-1.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;在上面这个图中，我们有12个样本，其中实心的用于训练，空心的用于测试&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。这是一个4折交叉验证，每次其中一折用于测试，剩余三折用于训练。第一次，第一折样本&lt;code&gt;[0,1,2]&lt;/code&gt;用于测试；第二次，第二折样本&lt;code&gt;[3,4,5]&lt;/code&gt;用于测试；第三次，第三折样本&lt;code&gt;[6,7,8]&lt;/code&gt;用于测试；最后一次，最后一折样本&lt;code&gt;[9,10,11]&lt;/code&gt;用于测试。 可以看到，经过4折交叉验证，&lt;strong&gt;训练集中的所有样本都参与了模型训练&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;接下来，我们看看如何在&lt;code&gt;sklearn&lt;/code&gt;中进行K折交叉验证：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+from sklearn.model_selection import KFold
+kf = KFold(4)
+X = np.arange(12)
+for train_indices, test_indices in kf.split(X):
+    print(train_indices, test_indices)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上代码产生如下结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[ 3  4  5  6  7  8  9 10 11] [0 1 2]
+[ 0  1  2  6  7  8  9 10 11] [3 4 5]
+[ 0  1  2  3  4  5  9 10 11] [6 7 8]
+[0 1 2 3 4 5 6 7 8] [ 9 10 11]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到，输出结果跟图中的例子完全一致。可能你也注意到了，在这个例子中，每一折都是顺序产生，其实我们可以进行随机选取。&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;k-fold-2.png&#34; &gt;
+&lt;img data-src=&#34;k-fold-2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+同样地，我们看看在&lt;code&gt;sklearn&lt;/code&gt;中如何做：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+from sklearn.model_selection import KFold
+kf = KFold(4, shuffle=True)
+X = np.arange(12)
+for train_indices, test_indices in kf.split(X):
+    print(train_indices, test_indices)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上代码的结果如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[0 1 2 3 4 6 7 8 9] [ 5 10 11]
+[ 0  1  2  4  5  6  7 10 11] [3 8 9]
+[ 0  1  3  4  5  8  9 10 11] [2 6 7]
+[ 2  3  5  6  7  8  9 10 11] [0 1 4]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到，每一折中的样本不再连续，而是随机抽取的。&lt;/p&gt;
+&lt;h3 id=&#34;学习曲线&#34;&gt;学习曲线&lt;/h3&gt;
+&lt;p&gt;在模型的训练过程中，通过绘制训练误差和验证误差 vs. 参与训练的样本数，我们可以得到两条曲线。&lt;/p&gt;
+&lt;p&gt;下面我们来看一个图：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;learning-curves-1.png&#34; data-caption=&#34;Learning Curves&#34;&gt;
+&lt;img data-src=&#34;learning-curves-1.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Learning Curves
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;图的左侧是一个高偏差的模型（&lt;em&gt;对应前述的线性模型&lt;/em&gt;），即模型欠拟合。在训练样本比较少时，模型能很好地拟合数据，因此训练误差很小，但当评估模型时，由于训练样本较少，模型的表现不会太好，因此验证误差会很大。随着参与训练的样本增加，更多的样本需要拟合，拟合难度增加，训练误差可能会增大一点。此时，由于使用了更多的训练数据，我们会得到一个稍微好点的模型，因此验证误差会减小一点，但不会太多。最后，当更多的数据加入训练，训练误差会增加一点，验证误差会减小一点，它们会越来越靠近。&lt;/p&gt;
+&lt;p&gt;图的中间一个刚刚好的模型（&lt;em&gt;对应二次曲线模型&lt;/em&gt;）。跟前面描述的情况一样，随着参与训练的样本增加，训练误差会增加，验证误差会减小，最后它们会越来越接近，不同于左侧的情况，&lt;strong&gt;验证误差和训练误差会收敛到比较低的位置&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;图的右侧是一个高方差的模型（&lt;em&gt;对应高阶拟合模型&lt;/em&gt;），一开始的情况跟前面两个模型的情况一样，但随着参与训练的样本增加，训练误差会增加，但会比较小，因为此时的模型试图对训练集进行记忆，同时验证误差会减小，但会比较大。最后，&lt;strong&gt;验证误差和训练误差会收敛，但不会靠近&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;接下来，我们看一个具体的例子：&lt;/p&gt;
+&lt;p&gt;样本包含两类数据，如下所示：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;data-visualization.png&#34; data-caption=&#34;Scatter Plot of data&#34;&gt;
+&lt;img data-src=&#34;data-visualization.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Scatter Plot of data
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;针对该数据，我们拟合以下三个模型，看看它们的学习曲线如何：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;逻辑回归模型&lt;/li&gt;
+&lt;li&gt;决策树模型&lt;/li&gt;
+&lt;li&gt;支持向量机模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.svm import SVC
+
+# Load data
+df = pd.read_csv(&#39;data.csv&#39;)
+X = np.array(df[[&#39;x1&#39;, &#39;x2&#39;]])
+y = np.array(df[&#39;y&#39;])
+
+# Fix random seed
+np.random.seed(55)
+
+def randomize(X, Y):
+    permutation = np.random.permutation(Y.shape[0])
+    X2 = X[permutation,:]
+    Y2 = Y[permutation]
+    return X2, Y2
+
+X2, y2 = randomize(X, y)
+
+# Construct three models to draw learning curves
+estimators = {}
+
+# Logistic Regression
+estimators[&#39;LR&#39;] = LogisticRegression()
+
+# Decision Tree
+estimators[&#39;DT&#39;] = GradientBoostingClassifier()
+
+# Support Vector Machine
+estimators[&#39;SVC&#39;] = SVC(kernel=&#39;rbf&#39;, gamma=1000)
+
+plt.figure(figsize=(12, 6))
+
+for i, m in enumerate(estimators):
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimators[m], X2, y2, cv=None, n_jobs=1, train_sizes=np.linspace(.1, 1.0, 10))
+    train_scores_mean = np.mean(train_scores, axis=1)
+    # train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    # test_scores_std = np.std(test_scores, axis=1)
+
+    plt.subplot(1, 3, i + 1)
+    plt.grid()
+
+    plt.title(&amp;quot;Learning Curves of {}&amp;quot;.format(m))
+    plt.xlabel(&amp;quot;Training examples&amp;quot;)
+    plt.ylabel(&amp;quot;Score&amp;quot;)
+
+    plt.plot(train_scores_mean, &#39;o-&#39;, color=&amp;quot;g&amp;quot;,
+             label=&amp;quot;Training score&amp;quot;)
+    plt.plot(test_scores_mean, &#39;o-&#39;, color=&amp;quot;y&amp;quot;,
+             label=&amp;quot;Cross-validation score&amp;quot;)
+
+
+    plt.legend(loc=&amp;quot;best&amp;quot;)
+
+plt.tight_layout()
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上代码将生成三个模型的学习曲线，我们来看一看：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;learning-curves.png&#34; &gt;
+&lt;img data-src=&#34;learning-curves.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;根据这些曲线可以得出：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;逻辑回归模型的训练和测试得分很低。&lt;/li&gt;
+&lt;li&gt;决策树模型的训练和测试得分很高。&lt;/li&gt;
+&lt;li&gt;支持向量机模型的训练得分很高，测试得分很低&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因此，决策树模型刚刚好，逻辑回归模型欠拟合，而支持向量机模型过拟合。&lt;/p&gt;
+&lt;p&gt;同样，我们可以反转这些曲线（因为度量使用的是得分而不是误差）然后与下图进行对比。&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;learning-curves-2.png&#34; &gt;
+&lt;img data-src=&#34;learning-curves-2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;最后，我们看一下在实际情况中是否也这样，为此我们绘制模型的边界曲线：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;models-boundary.png&#34; &gt;
+&lt;img data-src=&#34;models-boundary.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;我们可以看到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;逻辑回归模型使用一条直线，这太简单了。在训练集上的效果不太好，因此欠拟合。&lt;/li&gt;
+&lt;li&gt;决策树模型使用一个方形，拟合的很好，并能够泛化。因此，该模型效果很好。&lt;/li&gt;
+&lt;li&gt;支持向量机模型实际上在每个点周围都画了一个小圆圈。它实际上是在记住训练集，无法泛化。因此，过拟合。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;这里的测试实为验证，不同于最终的测试，后者指模型评估，前者为模型验证。 &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+    </item>
+    
+    <item>
       <title>逻辑回归（Logistic Regression）</title>
       <link>https://keris.github.io/zh/post/logistic-regression/</link>
       <pubDate>Tue, 14 Jan 2020 16:47:22 +0800</pubDate>
