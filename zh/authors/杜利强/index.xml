@@ -5,12 +5,159 @@
     <link>https://keris.github.io/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/</link>
       <atom:link href="https://keris.github.io/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/index.xml" rel="self" type="application/rss+xml" />
     <description>杜利强</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Tue, 17 Mar 2020 10:13:02 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Wed, 18 Mar 2020 11:45:54 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>杜利强</title>
       <link>https://keris.github.io/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/</link>
     </image>
+    
+    <item>
+      <title>随机数生成</title>
+      <link>https://keris.github.io/zh/post/random-number-generator/</link>
+      <pubDate>Wed, 18 Mar 2020 11:45:54 +0800</pubDate>
+      <guid>https://keris.github.io/zh/post/random-number-generator/</guid>
+      <description>&lt;p&gt;最近参加了一家公司的面试，其中一个问题是：“如何在C语言中生成一个真随机数？” 我当时想到的答案是使用&lt;code&gt;rand()&lt;/code&gt;，但&lt;code&gt;rand()&lt;/code&gt;返回的其实是一个伪随机数，值的范围是&lt;code&gt;[0, RAND_MAX]&lt;/code&gt;。其中，&lt;code&gt;RAND_MAX&lt;/code&gt;跟具体的实现有关，也就是说在不同的实现中可能有不同的值。&lt;/p&gt;
+&lt;p&gt;以上便是这篇博客的背景，也可以看出自己对随机数生成（RNG）掌握的也不全面，所以试图通过此文弥补一下短板。&lt;/p&gt;
+&lt;h2 id=&#34;随机数的应用&#34;&gt;随机数的应用&lt;/h2&gt;
+&lt;p&gt;随机数的应用有很多方面，包括赌博，统计采样，计算机仿真，加密等。&lt;/p&gt;
+&lt;h2 id=&#34;真随机数与伪随机数&#34;&gt;真随机数与伪随机数&lt;/h2&gt;
+&lt;p&gt;简单来讲，真随机数无法预测，而伪随机数在知道种子值后便能复现。我们先来了解一下生成随机数的两种方法。&lt;/p&gt;
+&lt;p&gt;在第一种方法中，我们测量某个被认为是随机的物理现象，然后补偿测量过程中可能的偏差。这种随机源包括空气噪声，热噪声以及其他外部的电磁和量子现象。要产生一个随机数，我们需要获取足够的墒（entropy），但获取速率取决于被测量的物理现象。因此，这种产生随机数的方法是阻塞的（blocking）的，速率受限的。举个例子，在大部分Linux发行版中，伪随机设备文件&lt;code&gt;/dev/random&lt;/code&gt;就会阻塞直到从环境获取到足够的墒。由于这种阻塞行为，从&lt;code&gt;/dev/random&lt;/code&gt;大批量读以便用随机位填充磁盘经常会很慢，就是因为墒源是阻塞型的。&lt;/p&gt;
+&lt;p&gt;在第二种方法中，我们使用计算的方法来生成明显随机值组成的长序列，但实际上结果完全由一个较短的初始值确定，这个初始值也叫种子值。因此，整个看似随机的序列在知道种子值的情况下能够被复现。相比第一种方法，第二种方法是非阻塞（non-blocking）的，所以其生成速率不受外部事件的影响。&lt;/p&gt;
+&lt;p&gt;在实际应用中，一些系统采取混合的办法，即在可用的时候采用自然源提供的随机性，否则使用周期性重新设置种子、软件基于的密码安全的伪随机数生成器（CSPRNGs）。&lt;/p&gt;
+&lt;p&gt;在这里小结一下：真随机数依赖于收集自然发生的墒，有了足够的墒方可生成随机数，因此是阻塞的，速率有限的；伪随机数使用计算方法产生，在知道种子值后能够复现，非阻塞，速率不受限。&lt;/p&gt;
+&lt;h2 id=&#34;c语言中的随机数生成&#34;&gt;C语言中的随机数生成&lt;/h2&gt;
+&lt;p&gt;在C语言中，标准库&lt;code&gt;stdlib.h&lt;/code&gt;提供了两个函数&lt;code&gt;int rand(void)&lt;/code&gt;和&lt;code&gt;void srand(unsigned)&lt;/code&gt;来帮助我们生成伪随机数。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;rand()&lt;/code&gt;返回一个位于区间&lt;code&gt;[0, RAND_MAX]&lt;/code&gt;的整数，&lt;code&gt;RAND_MAX&lt;/code&gt;在不同的实现中可能不同，但被保证至少是&lt;code&gt;32767&lt;/code&gt;。在调用&lt;code&gt;rand()&lt;/code&gt;前，如果我们不设置种子，系统默认我们设置种子为1，即调用了&lt;code&gt;srand(1)&lt;/code&gt;，在这种情况下，我们每次运行将会产生同样的值，下面看一个例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+
+int main() {
+    int num = rand();
+    printf(&amp;quot;Random number: %d\n&amp;quot;, num);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们编译以上代码并运行5次：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ gcc gen_rand.c &amp;amp;&amp;amp; for i in `seq 1 5`;do ./a.out;done
+Random number: 16807
+Random number: 16807
+Random number: 16807
+Random number: 16807
+Random number: 16807
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到，程序在每次运行时均生成了同样的值，这是因为种子值均为1。&lt;/p&gt;
+&lt;p&gt;接下来，我们再看看手动设置种子的情况：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;stdlib.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+
+int main() {
+    srand((unsigned)time(0)); // use current time as seed
+    int num = rand();
+    printf(&amp;quot;Random number: %d\n&amp;quot;, num);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这一次，我们将种子设为当前时间。同样地，我们编译并运行5次：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ gcc gen_rand1.c &amp;amp;&amp;amp; for i in `seq 1 5`;do ./a.out;done
+Random number: 7890298
+Random number: 7890298
+Random number: 7890298
+Random number: 7890298
+Random number: 7890298
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果看似跟前面没有不同，因为5次调用依然生成了同样的值。其实，这个差别很细微，我们将种子设为当前时间，但只有在重新编译时才能有不同的种子值。因此，两次编译之间生成的值应该不同：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ gcc gen_rand1.c &amp;amp;&amp;amp; ./a.out
+Random number: 12713907
+$ gcc gen_rand1.c &amp;amp;&amp;amp; ./a.out
+Random number: 12747521
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;c中的随机数生成&#34;&gt;C++中的随机数生成&lt;/h2&gt;
+&lt;p&gt;在C++中，我们仍然可以使用&lt;code&gt;rand()&lt;/code&gt;和&lt;code&gt;srand()&lt;/code&gt;来生成随机数，但这已经不是标准推荐的做法，相反我们应该使用&lt;code&gt;random&lt;/code&gt;库提供的工具类来生成随机数。&lt;/p&gt;
+&lt;p&gt;下面给出C++版本的代码，运行结果跟C语言别无二致，不再赘述。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cstdlib&amp;gt;
+#include &amp;lt;ctime&amp;gt;
+
+using namespace std;
+
+int main() {
+    // srand((unsigned)time(nullptr)); // use current time as seed
+    int r = rand();
+    cout &amp;lt;&amp;lt; &amp;quot;Random number between 0 and &amp;quot; &amp;lt;&amp;lt; RAND_MAX &amp;lt;&amp;lt; &amp;quot; :&amp;quot;;
+    cout &amp;lt;&amp;lt; r &amp;lt;&amp;lt; &#39;\n&#39;;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接下来，我们使用&lt;code&gt;random&lt;/code&gt;库提供的工具来生成随机数。&lt;code&gt;random&lt;/code&gt;库提供了两种类型的类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;均匀分布随机位生成器（URBGs），既包括伪随机数生成和真随机数生成（如果可用）&lt;/li&gt;
+&lt;li&gt;随机数分布&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;详细的信息请参见 &lt;a href=&#34;https://en.cppreference.com/w/cpp/numeric/random&#34;&gt;https://en.cppreference.com/w/cpp/numeric/random&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;下面给出一个使用随机数引擎生成随机数的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;random&amp;gt;
+
+using namespace std;
+
+int main() {
+    random_device rd;
+    default_random_engine e1(rd());
+    cout &amp;lt;&amp;lt; e1() &amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们编译以上代码，并运行5次：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ g++ main.cc -std=c++17 &amp;amp;&amp;amp; for i in `seq 1 5`;do ./a.out;done
+17429349
+872858569
+1540494345
+40333012
+95212997
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从这里可以看到，我们编译代码一次，多次运行，每次会产生不同的值，序列变得不可预测。&lt;/p&gt;
+&lt;p&gt;此外，我们可以将生成的随机数转换到某个闭区间的均匀分布或者正态分布，下面是一个均匀分布的例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;iomanip&amp;gt;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;random&amp;gt;
+#include &amp;lt;map&amp;gt;
+
+using namespace std;
+
+int main() {
+    random_device rd;
+    default_random_engine e1(rd());
+    uniform_int_distribution&amp;lt;int&amp;gt; dis(1, 6);
+    cout &amp;lt;&amp;lt; dis.min() &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; dis.max() &amp;lt;&amp;lt; endl;
+    map&amp;lt;int, int&amp;gt; hist;
+    for (int i = 0; i != 10000; i++) {
+        hist[dis(e1)]++;
+    }
+    for (auto[num, count] : hist) {
+        cout &amp;lt;&amp;lt; num &amp;lt;&amp;lt; &#39; &#39; &amp;lt;&amp;lt; string(count / 200, &#39;*&#39;) &amp;lt;&amp;lt; &#39;\n&#39;;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;编译以上代码并运行，结果如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ g++ -std=c++17 main.cc &amp;amp;&amp;amp; ./a.out
+1
+6
+1 ********
+2 ********
+3 *******
+4 ********
+5 ********
+6 ********
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们来分析一下。首先，我们输出均匀分布可能生成的最小值和最大值，由于我们考虑的是闭区间&lt;code&gt;[1, 6]&lt;/code&gt;上的均匀分布，显然最小值和最大值分别为1和6。然后我们将产生的随机数转换到区间上的某个值，并统计出现次数。最后，我们绘制直方图，从结果来看，每个值出现的次数基本一样多（我们进行了10000次实验！）。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>一个例子导向的对变参模版的理解</title>
@@ -71,7 +218,7 @@ test.cpp:9:7: note: candidate function template not viable: requires at
 &lt;blockquote&gt;
 &lt;p&gt;在编译时我使用了c++17标准。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&amp;rsquo;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
+&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&#39;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
 &lt;p&gt;对于以上的实现，&lt;code&gt;write(&amp;quot;hello,&amp;quot;, &amp;quot;world&amp;quot;)&lt;/code&gt;可以拆分成：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;输出&lt;code&gt;hello,&lt;/code&gt;，此时tail包含一个参数即&lt;code&gt;world&lt;/code&gt;&lt;/li&gt;
