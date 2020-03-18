@@ -589,11 +589,8 @@
     <li><a href="#f1-score">F1 score</a></li>
     <li><a href="#f_beta-score">$F_\beta$ score</a></li>
     <li><a href="#roc-curve">ROC Curve</a></li>
-    <li><a href="#auc">AUC</a>
-      <ul>
-        <li><a href="#回归指标">回归指标</a></li>
-      </ul>
-    </li>
+    <li><a href="#auc">AUC</a></li>
+    <li><a href="#回归指标">回归指标</a></li>
   </ul>
 </nav>
 <h2 id="混淆矩阵">混淆矩阵</h2>
@@ -785,12 +782,12 @@
 
 </figure>
 
-<h3 id="回归指标">回归指标</h3>
+<h2 id="回归指标">回归指标</h2>
 <ol>
 <li>Mean Absolute Error (MAE)</li>
 </ol>
-<p>MAE即平均绝对误差，假设我们有一组样本${x_i, y_i}, i = 1, 2, \cdots, n$，模型的输出为$\text{preds} = [p_1, p_2, \cdots, p_n]$，则MAE计算如下：</p>
-<p>$$\text{MAE} = \frac{1}{n}\sum_i^n |y_i - p_i|$$</p>
+<p>MAE即平均绝对误差，假设我们有一组样本${x_i, y_i}, i = 1, 2, \cdots, n$，模型的输出为$\text{preds} = [\hat{y}_1, \hat{y}_2, \cdots, \hat{y}_n]$，则MAE计算如下：</p>
+<p>$$\text{MAE} = \frac{1}{n}\sum_i^n |y_i - \hat{y}_i|$$</p>
 <p>借助<code>sklearn</code>，我们可以很方便地计算MAE：</p>
 <pre><code class="language-python">from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import LinearRegression
@@ -803,7 +800,7 @@ error = mean_absolute_error(y, preds)
 <li>Mean Squared Error (MSE)</li>
 </ol>
 <p>MSE即均方误差，定义如下：</p>
-<p>$$\text{MSE} = \frac{1}{n}\sum_i^n (y_i - p_i)^2$$</p>
+<p>$$\text{MSE} = \frac{1}{n}\sum_i^n (y_i - \hat{y}_i)^2$$</p>
 <p>同样地，MSE通过<code>sklearn</code>可以很方便地进行计算：</p>
 <pre><code class="language-python">from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegression
@@ -949,7 +946,7 @@ error = mean_squared_error(y, preds)
     <div class="media-body">
       <h5 class="card-title"><a href="https://keris.github.io/">杜利强</a></h5>
       <h6 class="card-subtitle">开发工程师</h6>
-      <p class="card-text">开发工程师@友信金服。</p>
+      <p class="card-text">一个努力的30岁。</p>
       <ul class="network-icon" aria-hidden="true">
   
     

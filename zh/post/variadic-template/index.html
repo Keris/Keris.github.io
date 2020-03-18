@@ -664,7 +664,7 @@ test.cpp:9:7: note: candidate function template not viable: requires at
 <blockquote>
 <p>在编译时我使用了c++17标准。</p>
 </blockquote>
-<p>可以看到，编译器报告了一个错误，<strong>对'write'的调用没有匹配的函数</strong>，这是为何？</p>
+<p>可以看到，编译器报告了一个错误，<strong>对&rsquo;write'的调用没有匹配的函数</strong>，这是为何？</p>
 <p>对于以上的实现，<code>write(&quot;hello,&quot;, &quot;world&quot;)</code>可以拆分成：</p>
 <ol>
 <li>输出<code>hello,</code>，此时tail包含一个参数即<code>world</code></li>

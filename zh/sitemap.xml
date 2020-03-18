@@ -23,26 +23,6 @@
   </url>
   
   <url>
-    <loc>https://keris.github.io/zh/categories/c/c&#43;&#43;/</loc>
-    <lastmod>2020-03-17T10:13:02+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://keris.github.io/zh/categories/</loc>
-    <lastmod>2020-03-17T10:13:02+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://keris.github.io/en/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://keris.github.io/zh/categories/"
-                />
-  </url>
-  
-  <url>
     <loc>https://keris.github.io/zh/post/</loc>
     <lastmod>2020-03-17T10:13:02+08:00</lastmod>
     <xhtml:link
@@ -88,6 +68,11 @@
   </url>
   
   <url>
+    <loc>https://keris.github.io/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/</loc>
+    <lastmod>2020-03-17T10:13:02+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://keris.github.io/zh/</loc>
     <lastmod>2020-03-17T10:13:02+08:00</lastmod>
     <xhtml:link
@@ -103,8 +88,18 @@
   </url>
   
   <url>
-    <loc>https://keris.github.io/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/</loc>
-    <lastmod>2020-03-17T10:13:02+08:00</lastmod>
+    <loc>https://keris.github.io/zh/categories/</loc>
+    <lastmod>2020-03-13T19:14:06+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://keris.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://keris.github.io/zh/categories/"
+                />
   </url>
   
   <url>
@@ -209,6 +204,10 @@
                 hreflang="zh"
                 href="https://keris.github.io/zh/authors/admin/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://keris.github.io/zh/categories/c/c&#43;&#43;/</loc>
   </url>
   
   <url>

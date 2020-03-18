@@ -20,7 +20,7 @@
       <description>&lt;h2&gt;目录&lt;/h2&gt;
 &lt;nav id=&#34;TableOfContents&#34;&gt;
   &lt;ul&gt;
-    &lt;li&gt;&lt;a href=&#34;#模型选择&#34;&gt;模型选择&lt;/a&gt;
+    &lt;li&gt;
       &lt;ul&gt;
         &lt;li&gt;&lt;a href=&#34;#两种类型的错误&#34;&gt;两种类型的错误&lt;/a&gt;&lt;/li&gt;
         &lt;li&gt;&lt;a href=&#34;#模型复杂图&#34;&gt;模型复杂图&lt;/a&gt;&lt;/li&gt;
@@ -30,7 +30,6 @@
     &lt;/li&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;
-&lt;h2 id=&#34;模型选择&#34;&gt;模型选择&lt;/h2&gt;
 &lt;h3 id=&#34;两种类型的错误&#34;&gt;两种类型的错误&lt;/h3&gt;
 &lt;p&gt;在选择模型时我们可能犯两种类型的错误，选择过于简单的模型或者过于复杂的模型，前者对应&lt;strong&gt;欠拟合&lt;/strong&gt;，后者对应&lt;strong&gt;过拟合&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;欠拟合发生时，模型具有高偏差（high bias），模型不能很好地拟合训练集；过拟合发生时，模型具有高方差（high variance），模型试图对训练数据进行记忆而不是学习其特点，在训练集上表现很好，但在测试集上表现很差。&lt;/p&gt;

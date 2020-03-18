@@ -71,7 +71,7 @@ test.cpp:9:7: note: candidate function template not viable: requires at
 &lt;blockquote&gt;
 &lt;p&gt;在编译时我使用了c++17标准。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&#39;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
+&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&amp;rsquo;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
 &lt;p&gt;对于以上的实现，&lt;code&gt;write(&amp;quot;hello,&amp;quot;, &amp;quot;world&amp;quot;)&lt;/code&gt;可以拆分成：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;输出&lt;code&gt;hello,&lt;/code&gt;，此时tail包含一个参数即&lt;code&gt;world&lt;/code&gt;&lt;/li&gt;
