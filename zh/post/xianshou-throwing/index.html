@@ -28,12 +28,18 @@
   
     
   
-  <meta name="description" content="杜利强的站点">
+  <meta name="description" content="棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：
+两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？
+数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为
+$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k &#43; 1} = \frac{2}{3}$$
+相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为
+$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$
+可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。
+模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：
+# coding: utf-8 # filename: code.py # Author: Liqiang Du &lt;keris.du@gmail.com&gt; import random import numpy as np def simulate(n_games): &quot;&quot;&quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play.">
 
   
-  <link rel="alternate" hreflang="en" href="https://keris.github.io/en/post/">
-  
-  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/xianshou-throwing/">
 
   
 
@@ -215,14 +221,12 @@
 
 
   
-  <link rel="alternate" href="/zh/post/index.xml" type="application/rss+xml" title="杜利强">
-  
 
   <link rel="manifest" href="/zh/index.webmanifest">
   <link rel="icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="https://keris.github.io/zh/post/">
+  <link rel="canonical" href="https://keris.github.io/zh/post/xianshou-throwing/">
 
   
   
@@ -239,18 +243,73 @@
   <meta property="twitter:creator" content="@duliqiang">
   
   <meta property="og:site_name" content="杜利强">
-  <meta property="og:url" content="https://keris.github.io/zh/post/">
-  <meta property="og:title" content="Posts | 杜利强">
-  <meta property="og:description" content="杜利强的站点"><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
+  <meta property="og:url" content="https://keris.github.io/zh/post/xianshou-throwing/">
+  <meta property="og:title" content="先手优势 | 杜利强">
+  <meta property="og:description" content="棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：
+两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？
+数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为
+$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k &#43; 1} = \frac{2}{3}$$
+相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为
+$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$
+可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。
+模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：
+# coding: utf-8 # filename: code.py # Author: Liqiang Du &lt;keris.du@gmail.com&gt; import random import numpy as np def simulate(n_games): &quot;&quot;&quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play."><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="zh-Hans">
   
-    <meta property="og:updated_time" content="2020-03-24T14:00:50&#43;08:00">
+    
+      <meta property="article:published_time" content="2020-03-24T14:00:50&#43;08:00">
+    
+    <meta property="article:modified_time" content="2020-03-24T14:00:50&#43;08:00">
   
 
   
 
 
+    
 
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://keris.github.io/zh/post/xianshou-throwing/"
+  },
+  "headline": "先手优势",
+  
+  "datePublished": "2020-03-24T14:00:50+08:00",
+  "dateModified": "2020-03-24T14:00:50+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "杜利强"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "杜利强",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img/https://keris.github.io/"
+    }
+  },
+  "description": "棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：\n两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？\n数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为\n$$p(\\text{win}|\\text{first}) = \\sum_{k=0}^{\\infty}(\\frac{1}{2})^{2k + 1} = \\frac{2}{3}$$\n相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为\n$$p(\\text{win}|\\text{second}) = \\sum_{k=1}^{\\infty}(\\frac{1}{2})^{2k} = \\frac{1}{3}$$\n可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。\n模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：\n# coding: utf-8 # filename: code.py # Author: Liqiang Du \u0026lt;keris.du@gmail.com\u0026gt; import random import numpy as np def simulate(n_games): \u0026quot;\u0026quot;\u0026quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play."
+}
+</script>
+
+  
 
   
 
@@ -258,10 +317,13 @@
   
 
 
+  
 
 
 
-  <title>Posts | 杜利强</title>
+
+
+  <title>先手优势 | 杜利强</title>
 
 </head>
 
@@ -437,22 +499,6 @@
       
 
       
-      <li class="nav-item dropdown i18n-dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-          <i class="fas fa-globe mr-1" aria-hidden="true"></i><span class="d-none d-lg-inline">中文 (简体)</span>
-        </a>
-        <div class="dropdown-menu">
-          <div class="dropdown-item i18n-active font-weight-bold">
-            <span>中文 (简体)</span>
-          </div>
-          
-          <a class="dropdown-item" href="https://keris.github.io/en/post/">
-            <span>English</span>
-          </a>
-          
-        </div>
-      </li>
-      
 
     </ul>
 
@@ -460,80 +506,35 @@
 </nav>
 
 
-  
-
-
-
-
-
-
-
-
-
-
-
+  <article class="article">
 
   
 
+
+
+
+
+
+
+
+
+
+
+
+  
+
   
   
+  
+<div class="article-container pt-3">
+  <h1>先手优势</h1>
+
+  
+  <p class="page-subtitle">投掷一枚硬币，先出现正面者为赢，先手好还是后手？</p>
+  
+
   
     
-  
-<div class="universal-wrapper pt-3">
-  <h1>Posts</h1>
-
-  
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
-
-  
-
-  
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/xianshou-throwing/" >先手优势</a>
-    </h3>
-
-    
-    <div class="article-style">
-      棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：
-两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？
-数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反 …
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
 
 
 <div class="article-metadata">
@@ -586,788 +587,202 @@
 
 </div>
 
-      
-    </div>
-
     
 
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 </div>
 
-    
-  
-    
-      
 
 
+  <div class="article-container">
 
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/random-number-generator/" >随机数生成</a>
-    </h3>
-
-    
     <div class="article-style">
-      在C/C++中如何生成真随机数
+      <p>棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：</p>
+<p><em>两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？</em></p>
+<h2 id="数学解法">数学解法</h2>
+<p>假设硬币是公平的，即出现正面和反面的概率一样，均为<code>1/2</code>。我们用<code>H</code>表示正面朝上，<code>T</code>表示反面朝上。那么，在先手下获胜的情况是第<code>n</code>次掷得正面，前<code>n-1</code>次都为反面，其中<code>n</code>为奇数。所以先手获胜的概率为</p>
+<p>$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k + 1} = \frac{2}{3}$$</p>
+<p>相反，在后手下获胜的情况是第<code>n</code>次掷得正面，前<code>n-1</code>次均为反面，其中<code>n</code>为偶数。所以，后手获胜的概率为</p>
+<p>$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$</p>
+<p>可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。</p>
+<h2 id="模拟法">模拟法</h2>
+<p>前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：</p>
+<pre><code class="language-python"># coding: utf-8
+# filename: code.py
+# Author: Liqiang Du &lt;keris.du@gmail.com&gt;
+import random
+import numpy as np
+
+
+def simulate(n_games):
+    &quot;&quot;&quot;
+    Simulate coin throwing game, the game is over when head appears.
+
+    Args:
+        n_games (int): the number of games.
+
+    Returns:
+        tuple: the first is the probability of win when first play,
+        and the second the probability of win when second play.
+    &quot;&quot;&quot;
+    win_count = np.array([0, 0])
+    for i in range(n_games):
+        game_over = False
+        n_tails = 0
+        while not game_over:
+            x = random.randint(0, 1)  # 1 indicates head and 0 tail
+            if x == 1:
+                game_over = True
+            else:
+                n_tails += 1
+        win_count[n_tails % 2] += 1
+    return win_count.astype(float) / n_games
+
+
+if __name__ == &quot;__main__&quot;:
+    n_games = 100000
+    probs = simulate(n_games)
+    print(probs)
+</code></pre>
+<p>程序的核心部分在于<code>simulate</code>，每次游戏，出现正面游戏就结束，同时记录反面出现的次数，如果该次数为偶数，则先手为赢，否则后手为赢。最后程序返回一个元祖，第一个表示先手获胜的概率，第二个为后手获胜的概率。</p>
+<p>我们运行一下程序看看结果：</p>
+<pre><code>$ python code.py
+[0.66436 0.33564]
+</code></pre>
+<p>我们模拟了10万次游戏，程序返回的结果跟数学求解结果十分接近。</p>
+<p>好了，文章到此就完了。这里我通过一个简单的游戏说明了先手的好处，这告诉我们一个道理，主动出击获得先手优势往往更能够成功。</p>
+
     </div>
+
     
 
-    <div class="stream-meta article-metadata">
 
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="">先手</a>
+  
+  <a class="badge badge-light" href="">概率</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
       
-
+      
       
         
-
-
-<div class="article-metadata">
-
-  
-  
-  
-  
-  <div>
-    
-
-
-
-  
-  <span><a href="/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/">杜利强</a></span>
-
-  </div>
-  
-  
-
-  
-  <span class="article-date">
-    
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://keris.github.io/zh/post/xianshou-throwing/&amp;text=%e5%85%88%e6%89%8b%e4%bc%98%e5%8a%bf" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
     
       
-    
-    Mar 18, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/zh/categories/c/c&#43;&#43;/">C/C&#43;&#43;</a></span>
-  
-
-</div>
-
       
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/variadic-template/" >一个例子导向的对变参模版的理解</a>
-    </h3>
-
-    
-    <div class="article-style">
-      如题
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
       
         
-
-
-<div class="article-metadata">
-
-  
-  
-  
-  
-  <div>
-    
-
-
-
-  
-  <span><a href="/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/">杜利强</a></span>
-
-  </div>
-  
-  
-
-  
-  <span class="article-date">
-    
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://keris.github.io/zh/post/xianshou-throwing/&amp;t=%e5%85%88%e6%89%8b%e4%bc%98%e5%8a%bf" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
     
       
-    
-    Mar 17, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/zh/categories/c/c&#43;&#43;/">C/C&#43;&#43;</a></span>
-  
-
-</div>
-
       
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-    
-    <a href="/zh/post/variadic-template/" >
-      <img src="/zh/post/variadic-template/featured_hu61ee177c014e2b49b5186ca910354374_113000_150x0_resize_q90_lanczos.jpg" alt="">
-    </a>
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/model-selection/" >机器学习模型选择</a>
-    </h3>
-
-    
-    <div class="article-style">
-      如何选择一个好的机器学习模型，欠拟合和过拟合判断
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
       
         
-
-
-<div class="article-metadata">
-
-  
-  
-  
-  
-  <div>
-    
-
-
-
-  
-  <span><a href="/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/">杜利强</a></span>
-
-  </div>
-  
-  
-
-  
-  <span class="article-date">
-    
-    
       
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://keris.github.io/zh/post/xianshou-throwing/&amp;title=%e5%85%88%e6%89%8b%e4%bc%98%e5%8a%bf" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
     
-    Mar 13, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="">机器学习</a></span>
-  
-
+  </ul>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/"></a></h5>
       
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+</ul>
+
     </div>
+  </div>
 
-    
+
+
+
+
+
+
+
+
+  
+  
+
+
 
   </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/metrics/" >评估指标</a>
-    </h3>
-
-    
-    <div class="article-style">
-      了解机器学习模型的各种评估指标
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Mar 11, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="">机器学习</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/credit-score-card/" >信用评分卡模型</a>
-    </h3>
-
-    
-    <div class="article-style">
-      学习信用评分卡模型的全流程
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Mar 3, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="">金融风控</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/what-is-rfm-model/" >RFM模型及实践</a>
-    </h3>
-
-    
-    <div class="article-style">
-      简要说明RFM模型并给出一个实际的使用例子
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Feb 26, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    5 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/logistic-regression/" >逻辑回归（Logistic Regression）</a>
-    </h3>
-
-    
-    <div class="article-style">
-      理解逻辑回归中涉及的术语以及从最大似然到最小化代价函数
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-  
-  
-  <div>
-    
-
-
-
-  
-  <span><a href="/zh/authors/%E6%9D%9C%E5%88%A9%E5%BC%BA/">杜利强</a></span>
-
-  </div>
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          最近更新于
-      
-    
-    Jan 20, 2020
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="">机器学习</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <h3 class="article-title mb-0 mt-0">
-      <a href="/zh/post/change-author-name-email/" >更改git提交中的作者和邮件信息</a>
-    </h3>
-
-    
-    <div class="article-style">
-      <p>在git的日常使用中更改提交的作者名和邮箱是一个十分常见的操作。例如，当你克隆了一个项目，如果你没有进行任何设置，此时提交的作者和邮件将使用全局选项，这可能不是你所要的。</p>
-    </div>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    Nov 7, 2019
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 分钟阅读时长
-  </span>
-  
-
-  
-  
-  
-
-  
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-
-  
-
-
-</div>
+</article>
 
       
 
