@@ -28,15 +28,7 @@
   
     
   
-  <meta name="description" content="棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：
-两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？
-数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为
-$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k &#43; 1} = \frac{2}{3}$$
-相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为
-$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$
-可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。
-模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：
-# coding: utf-8 # filename: code.py # Author: Liqiang Du &lt;keris.du@gmail.com&gt; import random import numpy as np def simulate(n_games): &quot;&quot;&quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play.">
+  <meta name="description" content="先手意味着主动，从概率上讲获胜的可能性也更大">
 
   
   <link rel="alternate" hreflang="zh-Hans" href="https://keris.github.io/zh/post/xianshou-throwing/">
@@ -47,7 +39,7 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
   
   
   
-  <meta name="theme-color" content="#3f51b5">
+  <meta name="theme-color" content="hsl(339, 90%, 68%)">
   
 
   
@@ -74,8 +66,8 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
       
       
         
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light" disabled>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark">
         
       
     
@@ -234,10 +226,9 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
   
   
     
-    
   
   
-  <meta property="twitter:card" content="summary">
+  <meta property="twitter:card" content="summary_large_image">
   
   <meta property="twitter:site" content="@duliqiang">
   <meta property="twitter:creator" content="@duliqiang">
@@ -245,16 +236,8 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
   <meta property="og:site_name" content="杜利强">
   <meta property="og:url" content="https://keris.github.io/zh/post/xianshou-throwing/">
   <meta property="og:title" content="先手优势 | 杜利强">
-  <meta property="og:description" content="棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：
-两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？
-数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为
-$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k &#43; 1} = \frac{2}{3}$$
-相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为
-$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$
-可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。
-模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：
-# coding: utf-8 # filename: code.py # Author: Liqiang Du &lt;keris.du@gmail.com&gt; import random import numpy as np def simulate(n_games): &quot;&quot;&quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play."><meta property="og:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png">
-  <meta property="twitter:image" content="https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="zh-Hans">
+  <meta property="og:description" content="先手意味着主动，从概率上讲获胜的可能性也更大"><meta property="og:image" content="https://keris.github.io/zh/post/xianshou-throwing/featured.jpg">
+  <meta property="twitter:image" content="https://keris.github.io/zh/post/xianshou-throwing/featured.jpg"><meta property="og:locale" content="zh-Hans">
   
     
       <meta property="article:published_time" content="2020-03-24T14:00:50&#43;08:00">
@@ -289,6 +272,10 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
   },
   "headline": "先手优势",
   
+  "image": [
+    "https://keris.github.io/zh/post/xianshou-throwing/featured.jpg"
+  ],
+  
   "datePublished": "2020-03-24T14:00:50+08:00",
   "dateModified": "2020-03-24T14:00:50+08:00",
   
@@ -305,7 +292,7 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
       "url": "img/https://keris.github.io/"
     }
   },
-  "description": "棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：\n两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？\n数学解法 假设硬币是公平的，即出现正面和反面的概率一样，均为1/2。我们用H表示正面朝上，T表示反面朝上。那么，在先手下获胜的情况是第n次掷得正面，前n-1次都为反面，其中n为奇数。所以先手获胜的概率为\n$$p(\\text{win}|\\text{first}) = \\sum_{k=0}^{\\infty}(\\frac{1}{2})^{2k + 1} = \\frac{2}{3}$$\n相反，在后手下获胜的情况是第n次掷得正面，前n-1次均为反面，其中n为偶数。所以，后手获胜的概率为\n$$p(\\text{win}|\\text{second}) = \\sum_{k=1}^{\\infty}(\\frac{1}{2})^{2k} = \\frac{1}{3}$$\n可以发现，先手获胜的概率为2/3，而后手获胜的概率为1/3，这告诉我们在生活中抓住先机，主动出击往往更能取得胜利。\n模拟法 前面我们用数学的方法进行了求解，下面来看看如何用程序来模拟，为此我写了一个Python程序：\n# coding: utf-8 # filename: code.py # Author: Liqiang Du \u0026lt;keris.du@gmail.com\u0026gt; import random import numpy as np def simulate(n_games): \u0026quot;\u0026quot;\u0026quot; Simulate coin throwing game, the game is over when head appears. Args: n_games (int): the number of games. Returns: tuple: the first is the probability of win when first play, and the second the probability of win when second play."
+  "description": "先手意味着主动，从概率上讲获胜的可能性也更大"
 }
 </script>
 
@@ -327,7 +314,7 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
 
 </head>
 
-<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark">
 
   <aside class="search-results" id="search">
   <div class="container">
@@ -521,20 +508,28 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
 
 
 
-  
+
+
+
+
+
+
+
 
   
   
+    
   
+
+
 <div class="article-container pt-3">
   <h1>先手优势</h1>
 
   
-  <p class="page-subtitle">投掷一枚硬币，先出现正面者为赢，先手好还是后手？</p>
+  <p class="page-subtitle">投掷一枚硬币，先出现正面者为赢，先手还是后手？</p>
   
 
   
-    
 
 
 <div class="article-metadata">
@@ -582,27 +577,34 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href=""></a></span>
+    <i class="fas fa-folder mr-1"></i><a href="">数学</a></span>
   
 
 </div>
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 480px;">
+  <div style="position: relative">
+    <img src="/zh/post/xianshou-throwing/featured_hue58b6f22fe8b8213e503855db503de59_1898654_720x0_resize_q90_lanczos.jpg" alt="" class="featured-image">
+    <span class="article-header-caption">Photo by ZSun Fu on Unsplash</span>
+  </div>
 </div>
 
 
@@ -613,7 +615,7 @@ $$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}
       <p>棋经有云，“宁失一子，勿失一先”，可见先手的好处所在。为了建立对先手直观的理解，我们来玩一个游戏：</p>
 <p><em>两个人玩投掷硬币的游戏，先掷出正面的人获胜，那么你是选择先掷还是后掷？</em></p>
 <h2 id="数学解法">数学解法</h2>
-<p>假设硬币是公平的，即出现正面和反面的概率一样，均为<code>1/2</code>。我们用<code>H</code>表示正面朝上，<code>T</code>表示反面朝上。那么，在先手下获胜的情况是第<code>n</code>次掷得正面，前<code>n-1</code>次都为反面，其中<code>n</code>为奇数。所以先手获胜的概率为</p>
+<p>假设硬币是公平的，即出现正面和反面的概率一样，均为<code>1/2</code>。那么，在先手下获胜的情况是第<code>n</code>次掷得正面，前<code>n-1</code>次都为反面，其中<code>n</code>为奇数。所以先手获胜的概率为</p>
 <p>$$p(\text{win}|\text{first}) = \sum_{k=0}^{\infty}(\frac{1}{2})^{2k + 1} = \frac{2}{3}$$</p>
 <p>相反，在后手下获胜的情况是第<code>n</code>次掷得正面，前<code>n-1</code>次均为反面，其中<code>n</code>为偶数。所以，后手获胜的概率为</p>
 <p>$$p(\text{win}|\text{second}) = \sum_{k=1}^{\infty}(\frac{1}{2})^{2k} = \frac{1}{3}$$</p>
@@ -663,7 +665,7 @@ if __name__ == &quot;__main__&quot;:
 [0.66436 0.33564]
 </code></pre>
 <p>我们模拟了10万次游戏，程序返回的结果跟数学求解结果十分接近。</p>
-<p>好了，文章到此就完了。这里我通过一个简单的游戏说明了先手的好处，这告诉我们一个道理，主动出击获得先手优势往往更能够成功。</p>
+<p>至此文章就完了。在这里我通过一个简单的游戏说明了先手的好处，这告诉我们一个道理，主动出击获得先手优势往往更能够成功。</p>
 
     </div>
 
@@ -803,6 +805,12 @@ if __name__ == &quot;__main__&quot;:
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/python.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/c&#43;&#43;.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/c.min.js"></script>
         
       
 
