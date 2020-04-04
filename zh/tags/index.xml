@@ -5,7 +5,7 @@
     <link>https://keris.github.io/zh/tags/</link>
       <atom:link href="https://keris.github.io/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Sat, 04 Apr 2020 13:02:41 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Sat, 04 Apr 2020 17:53:27 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>Tags</title>
@@ -13,10 +13,26 @@
     </image>
     
     <item>
+      <title>Python</title>
+      <link>https://keris.github.io/zh/tags/python/</link>
+      <pubDate>Sat, 04 Apr 2020 17:53:27 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>概率</title>
       <link>https://keris.github.io/zh/tags/%E6%A6%82%E7%8E%87/</link>
-      <pubDate>Sat, 04 Apr 2020 13:02:41 +0800</pubDate>
+      <pubDate>Sat, 04 Apr 2020 17:53:27 +0800</pubDate>
       <guid>https://keris.github.io/zh/tags/%E6%A6%82%E7%8E%87/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>计算机模拟实验</title>
+      <link>https://keris.github.io/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</link>
+      <pubDate>Sat, 04 Apr 2020 17:53:27 +0800</pubDate>
+      <guid>https://keris.github.io/zh/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A8%A1%E6%8B%9F%E5%AE%9E%E9%AA%8C/</guid>
       <description></description>
     </item>
     
