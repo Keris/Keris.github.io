@@ -2,8 +2,8 @@
   "name": "杜利强",
   "short_name": "杜利强",
   "lang": "zh-Hans",
-  "theme_color": "hsl(339, 90%, 68%)",
-  "background_color": "hsl(339, 90%, 68%)",
+  "theme_color": "#4caf50",
+  "background_color": "#4caf50",
   "icons": [{
     "src": "/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_192x192_fill_lanczos_center_2.png",
     "sizes": "192x192",
