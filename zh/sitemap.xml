@@ -123,16 +123,6 @@
   </url>
   
   <url>
-    <loc>https://keris.github.io/zh/tags/c/c&#43;&#43;/</loc>
-    <lastmod>2020-03-18T11:45:54+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://keris.github.io/zh/categories/c/c&#43;&#43;/</loc>
-    <lastmod>2020-03-18T11:45:54+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://keris.github.io/zh/tags/prngs/</loc>
     <lastmod>2020-03-18T11:45:54+08:00</lastmod>
   </url>
@@ -274,6 +264,14 @@
                 hreflang="zh"
                 href="https://keris.github.io/zh/authors/admin/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://keris.github.io/zh/tags/c/c&#43;&#43;/</loc>
+  </url>
+  
+  <url>
+    <loc>https://keris.github.io/zh/categories/c/c&#43;&#43;/</loc>
   </url>
   
   <url>
