@@ -5,12 +5,474 @@
     <link>https://keris.github.io/zh/</link>
       <atom:link href="https://keris.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
     <description>杜利强</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Sun, 05 Apr 2020 19:40:58 +0800</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>zh-Hans</language><lastBuildDate>Wed, 22 Apr 2020 14:50:10 +0800</lastBuildDate>
     <image>
       <url>https://keris.github.io/images/icon_hu0fc6cda6d9ee8f97aed5fca718c40606_62996_512x512_fill_lanczos_center_2.png</url>
       <title>杜利强</title>
       <link>https://keris.github.io/zh/</link>
     </image>
+    
+    <item>
+      <title>简单粗暴正则表达式</title>
+      <link>https://keris.github.io/zh/post/pratical-regex-tutorial/</link>
+      <pubDate>Wed, 22 Apr 2020 14:50:10 +0800</pubDate>
+      <guid>https://keris.github.io/zh/post/pratical-regex-tutorial/</guid>
+      <description>&lt;p&gt;在工作和学习中我时不时会使用正则表达式处理一些文本分析任务，但仍觉得自己是个新手，熟手也算不上。但从现在开始，我想做个这方面的能手，写这篇文章即为开始，也希望能帮助到需要的朋友。写了这篇文章也不意味着我就成能手了，要专于此，路且长漫。俗话说，共欲善其事必先利其器，正则表达式就是这样一个值得利的工具，这篇文章试图提供一个短小简练的正则表达式参考手册。&lt;/p&gt;
+&lt;h2&gt;目录&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#什么是正则表达式&#34;&gt;什么是正则表达式&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#正则表达式有什么用&#34;&gt;正则表达式有什么用&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#正则表达式的构成&#34;&gt;正则表达式的构成&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#需要做进一步解释的正则表达式&#34;&gt;需要做进一步解释的正则表达式&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#特殊标记嵌入&#34;&gt;特殊标记嵌入&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#零宽度正预测先行断言&#34;&gt;零宽度正预测先行断言&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#零宽度负预测先行断言&#34;&gt;零宽度负预测先行断言&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#零宽度正回顾后发断言&#34;&gt;零宽度正回顾后发断言&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#零宽度负回顾后发断言&#34;&gt;零宽度负回顾后发断言&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#链接&#34;&gt;链接&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h2 id=&#34;什么是正则表达式&#34;&gt;什么是正则表达式&lt;/h2&gt;
+&lt;p&gt;正则表达式（简称为&lt;em&gt;regex&lt;/em&gt;）是一个由字符和特殊符号组成的字符串模式，它描述了一系列符合某个句法规则的字符串。正则表达式中的特殊符号称之为元字符。以下举几个例子来说明。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;搜索 v.s. 匹配&lt;/p&gt;
+&lt;p&gt;匹配指的是判断一个字符串能否从开始位置全部或者部分地匹配某个模式。
+搜索指的是在目标字符串的任意位置开始搜索匹配的模式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;正则表达式模式&lt;/th&gt;
+&lt;th&gt;匹配的字符串&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;foo&lt;/td&gt;
+&lt;td&gt;foo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;abc123&lt;/td&gt;
+&lt;td&gt;abc123&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;正则表达式有什么用&#34;&gt;正则表达式有什么用&lt;/h2&gt;
+&lt;p&gt;正则表达式是用来处理字符串的，想知道其有何用，不妨看看它的应用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;许多文本编辑器、IDEs支持以正则表达式进行查找和替换&lt;/li&gt;
+&lt;li&gt;许多编程语言支持正则表达式，如C++，Perl，Python，SQL&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;vscode-find-date.png&#34; data-caption=&#34;在Visual Studio Code中查找本文档里包含的日期&#34;&gt;
+&lt;img data-src=&#34;vscode-find-date.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    在Visual Studio Code中查找本文档里包含的日期
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;正则表达式的构成&#34;&gt;正则表达式的构成&lt;/h2&gt;
+&lt;p&gt;前面已经提到正则表达式由字符和特殊符号组成。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;符号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;表示法&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;正则表达式示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;literal&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配文本字符串中的字面值&lt;em&gt;literal&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;foo&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;re1|re2&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配正则表达式re1或者re2&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;foo|bar&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;.&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配任何字符（除了&lt;code&gt;\n&lt;/code&gt;）&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;b.b&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;^&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配字符串开始部分&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;^Dear&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配字符串终止部分&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/bin/.*sh$&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;*&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配0次或者多次前面的正则表达式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[A-Za-z0-9]*&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;+&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配1次或者多次前面的正则表达式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[a-z]+\.com&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;?&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配0次或者1次前面的正则表达式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;goo?&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;{n}&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配n次前面的正则表达式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[0-9]{3}&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;{m,n}&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配m~n次前面的正则表达式&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[0-9]{5,9}&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[...]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配来自字符集的任意单一字符&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[aeiou]&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[..x-y..]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配x~y范围中的任意单一字符&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[0-9], [a-zA-Z]&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[^...]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;不匹配来自字符集的任一字符&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[^aeiou], [^0-9A-Za-z]&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(*|+|?{})?&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;非贪婪版本&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;.*?[a-z]&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配封闭的正则表达式，然后另存为子组&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;([0-9]{3})?, f(oo|u)bar&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;特殊符号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下特殊字符（&lt;strong&gt;前四个&lt;/strong&gt;）的大写形式对应相反的含义。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;表示法&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;正则表达式示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\d&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;等同于&lt;code&gt;[0-9]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;data\d+.txt&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\w&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;等同于&lt;code&gt;[0-9a-zA-Z_]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;[A-Za-z]\w+&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\s&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;等同于&lt;code&gt;[\n\t\r\v\f]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;of\sthe&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\b&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;匹配任何单词边界&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;\bThe\b&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\N&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;反向引用已保存的子组&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;price;\1&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;逐字匹配任何特殊字符c&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;\.,\\,\*&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;\A(\Z)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;等同于&lt;code&gt;^($)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;\ADear&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;扩展表示法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;表示法&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;th&gt;正则表达式示例&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?iLmsux)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;在正则表达式中嵌入一个或多个特殊“标记”参数&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?x), (? im)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?:...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;表示一个匹配不用保存的分组&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?:\w+\.)*&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?P&amp;lt;name&amp;gt;...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;表示仅由name标识而不是数字ID标识的正则分组匹配&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?P&amp;lt;data&amp;gt;)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?P=name)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;在同一个字符串中匹配由&lt;code&gt;(?P&amp;lt;name&amp;gt;)&lt;/code&gt;分组的之前的文本&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?P=data)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?#...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;表示注释&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?#comment)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?=...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零宽度正预测先行断言&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?=\.com)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?!...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零宽度负预测先行断言&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?!\.net)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?&amp;lt;=...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零宽度正回顾后发断言&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?&amp;lt;=800-)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?&amp;lt;!...)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零宽度负回顾后发断言&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?&amp;lt;!192\.168\.)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;(?(id/name)Y|N)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;如果分组提供的id或者name存在，就返回正则表达式的条件匹配Y，否则返回N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;(?x), (? im)&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;需要做进一步解释的正则表达式&#34;&gt;需要做进一步解释的正则表达式&lt;/h2&gt;
+&lt;p&gt;在上一部分，我们了解了正则表达式的构成，其中有些需要做进一步的解释。&lt;/p&gt;
+&lt;h3 id=&#34;特殊标记嵌入&#34;&gt;特殊标记嵌入&lt;/h3&gt;
+&lt;p&gt;除了在&lt;code&gt;re.compile&lt;/code&gt;中传递&lt;code&gt;flags&lt;/code&gt;参数，我们可以利用&lt;code&gt;(?iLmsux)&lt;/code&gt;来嵌入特殊标记。以下举几个例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;(?i)yes&#39;, &#39;yes? Yes. YES!!&#39;)
+[&#39;yes&#39;, &#39;Yes&#39;, &#39;YES&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在这个例子中，通过&lt;code&gt;(?i)&lt;/code&gt;实现了不区分大小写的正则搜索。&lt;/p&gt;
+&lt;p&gt;再看一个支持多行并且不区分大小写的正则搜索例子：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;(?im)^th[\w ]+&#39;, &amp;quot;&amp;quot;&amp;quot;
+... This line is the first,
+... another line,
+... that line, it&#39;s the best
+...&amp;quot;&amp;quot;&amp;quot;)
+[&#39;This line is the first&#39;, &#39;that line&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;零宽度正预测先行断言&#34;&gt;零宽度正预测先行断言&lt;/h3&gt;
+&lt;p&gt;零宽度正预测先行断言即&lt;code&gt;(?=...)&lt;/code&gt;。举个例子加以说明。&lt;/p&gt;
+&lt;p&gt;对正则表达式&lt;code&gt;(?=\.com)&lt;/code&gt;而言，如果一个字符串后面&lt;strong&gt;跟着&lt;/strong&gt;&lt;code&gt;.com&lt;/code&gt;才做匹配操作，否则不进行。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;(?m)\w+(?=\.com)&#39;, &amp;quot;&amp;quot;&amp;quot;
+... https://www.google.com
+... https://example.net
+... &amp;quot;&amp;quot;&amp;quot;)
+[&#39;google&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;followed-by-dotcom.png&#34; data-caption=&#34;仅匹配后面跟着.com的字符串&#34;&gt;
+&lt;img data-src=&#34;followed-by-dotcom.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    仅匹配后面跟着.com的字符串
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;零宽度负预测先行断言&#34;&gt;零宽度负预测先行断言&lt;/h3&gt;
+&lt;p&gt;零宽度负预测先行断言即&lt;code&gt;(?!...)&lt;/code&gt;。举个例子加以说明。&lt;/p&gt;
+&lt;p&gt;对正则表达式&lt;code&gt;\b(?!un)\w+\b&lt;/code&gt;而言，如果一个单词的开始后面&lt;strong&gt;没有跟着&lt;/strong&gt;&lt;code&gt;un&lt;/code&gt;才做匹配操作，否则不进行。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;\b(?!un)\w+\b&#39;, &#39;unsure sure unity used&#39;)
+[&#39;sure&#39;, &#39;used&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;unfollowed-by-un.png&#34; data-caption=&#34;仅匹配单词开始后没有跟着un的字符串&#34;&gt;
+&lt;img data-src=&#34;unfollowed-by-un.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    仅匹配单词开始后没有跟着un的字符串
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;零宽度正回顾后发断言&#34;&gt;零宽度正回顾后发断言&lt;/h3&gt;
+&lt;p&gt;零宽度正回顾后发断言即&lt;code&gt;(?&amp;lt;=...)&lt;/code&gt;。举个例子以说明。&lt;/p&gt;
+&lt;p&gt;对于正则表达式&lt;code&gt;(?&amp;lt;=19)\d{2}\b&lt;/code&gt;而言，如果某个四位数字以19开始，则进行匹配，否则不进行。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;(?&amp;lt;=19)\d{2}\b&#39;, &#39;1851 1999 1950 1905 2003&#39;)
+[&#39;99&#39;, &#39;50&#39;, &#39;05&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;preceded-by-19.png&#34; data-caption=&#34;仅对以19开始的四位数字进行匹配操作&#34;&gt;
+&lt;img data-src=&#34;preceded-by-19.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    仅对以19开始的四位数字进行匹配操作
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h3 id=&#34;零宽度负回顾后发断言&#34;&gt;零宽度负回顾后发断言&lt;/h3&gt;
+&lt;p&gt;零宽度负回顾后发断言即&lt;code&gt;(?&amp;lt;!...)&lt;/code&gt;。举个例子以说明。&lt;/p&gt;
+&lt;p&gt;对于正则表达式&lt;code&gt;(?&amp;lt;!19)\d{2}\b&lt;/code&gt;而言，如果某个四位数字不以19开始，则进行匹配，否则不进行。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;gt;&amp;gt;&amp;gt; re.findall(r&#39;(?&amp;lt;=19)\d{2}\b&#39;, &#39;1851 1999 1950 1905 2003&#39;)
+[&#39;51&#39;, &#39;03&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;not-preceded-by-19.png&#34; data-caption=&#34;仅对不以19开始的四位数字进行匹配操作&#34;&gt;
+&lt;img data-src=&#34;not-preceded-by-19.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    仅对不以19开始的四位数字进行匹配操作
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;链接&#34;&gt;链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/regular-expression-language-quick-reference?redirectedfrom=MSDN&#34;&gt;微软：正则表达式语言-快速参考&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.jb51.net/tools/zhengze.html&#34;&gt;脚本之家：正则表达式30分钟入门教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>十元蛋炒饭</title>
@@ -420,7 +882,7 @@ test.cpp:9:7: note: candidate function template not viable: requires at
 &lt;blockquote&gt;
 &lt;p&gt;在编译时我使用了c++17标准。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&amp;rsquo;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
+&lt;p&gt;可以看到，编译器报告了一个错误，&lt;strong&gt;对&#39;write&#39;的调用没有匹配的函数&lt;/strong&gt;，这是为何？&lt;/p&gt;
 &lt;p&gt;对于以上的实现，&lt;code&gt;write(&amp;quot;hello,&amp;quot;, &amp;quot;world&amp;quot;)&lt;/code&gt;可以拆分成：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;输出&lt;code&gt;hello,&lt;/code&gt;，此时tail包含一个参数即&lt;code&gt;world&lt;/code&gt;&lt;/li&gt;
