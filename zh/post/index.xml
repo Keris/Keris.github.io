@@ -33,7 +33,20 @@
         &lt;li&gt;&lt;a href=&#34;#零宽度负回顾后发断言&#34;&gt;零宽度负回顾后发断言&lt;/a&gt;&lt;/li&gt;
       &lt;/ul&gt;
     &lt;/li&gt;
-    &lt;li&gt;&lt;a href=&#34;#链接&#34;&gt;链接&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#正则表达式实例&#34;&gt;正则表达式实例&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#手机号码匹配&#34;&gt;手机号码匹配&lt;/a&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&#34;#手机卡---基础运营商&#34;&gt;手机卡 - 基础运营商&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;#手机卡---虚拟运营商&#34;&gt;手机卡 - 虚拟运营商&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;#物联网数据卡&#34;&gt;物联网数据卡&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;#上网卡&#34;&gt;上网卡&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&#34;#手机号码正则表达式&#34;&gt;手机号码正则表达式&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#参考链接&#34;&gt;参考链接&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/nav&gt;
 &lt;h2 id=&#34;什么是正则表达式&#34;&gt;什么是正则表达式&lt;/h2&gt;
@@ -466,11 +479,188 @@
 
 &lt;/figure&gt;
 
-&lt;h2 id=&#34;链接&#34;&gt;链接&lt;/h2&gt;
+&lt;h2 id=&#34;正则表达式实例&#34;&gt;正则表达式实例&lt;/h2&gt;
+&lt;h3 id=&#34;手机号码匹配&#34;&gt;手机号码匹配&lt;/h3&gt;
+&lt;p&gt;手机号码校验是一个十分常见的应用场景，利用正则表达式可以很好地应对这个任务。要写出这样一个目的的正则表达式，我们需要先了解手机号码的构成情况。&lt;/p&gt;
+&lt;p&gt;中国境内的手机号码由三家移动运营商提供，即中国移动，中国联通和中国电信。手机号码由11位的数字组成，第一位是1，可以根据前三位来区分运营商，但现在由于携号转网的支持（2019年12月1日开始），该规则将不再适用。&lt;/p&gt;
+&lt;h4 id=&#34;手机卡---基础运营商&#34;&gt;手机卡 - 基础运营商&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持语音通话 / 短信 / 数据流量&lt;/li&gt;
+&lt;li&gt;号码长度 11 位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;运营商&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;th&gt;号段&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;中国移动&lt;/td&gt;
+&lt;td&gt;134-0~8 / 135 / 136 / 137 / 138 / 139 / 150 / 151 / 152 / 157 / 158 / 159 / 172 / 178 / 182 / 183 / 184 / 187 / 188 / 195 / 197 / 198&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国联通&lt;/td&gt;
+&lt;td&gt;130 / 131 / 132 / 155 / 156 / 166 / 175 / 176 / 185 / 186 / 196&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国电信&lt;/td&gt;
+&lt;td&gt;133 / 134-9 / 153 / 173 / 174-00~05 / 177 / 180 / 181 / 189 / 190 / 191 / 193 / 199&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国广电&lt;/td&gt;
+&lt;td&gt;192&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;北京船舶通信导航有限公司（海事卫星通信）&lt;/td&gt;
+&lt;td&gt;174-9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;工业和信息化部应急通信保障中心（应急通信）&lt;/td&gt;
+&lt;td&gt;174-06~12&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;手机卡---虚拟运营商&#34;&gt;手机卡 - 虚拟运营商&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持语音通话 / 短信 / 数据流量&lt;/li&gt;
+&lt;li&gt;号码长度 11 位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;运营商&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;th&gt;号段&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;中国移动&lt;/td&gt;
+&lt;td&gt;165 / 1703 / 1705 / 1706&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国联通&lt;/td&gt;
+&lt;td&gt;167 / 1704 / 1707 / 1708 / 1709 / 171&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国电信&lt;/td&gt;
+&lt;td&gt;162 / 1700 / 1701 / 1702&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;物联网数据卡&#34;&gt;物联网数据卡&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持数据流量&lt;/li&gt;
+&lt;li&gt;号码长度 13 位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;运营商&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;th&gt;号段&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;中国移动&lt;/td&gt;
+&lt;td&gt;1440X / 148XX&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国联通&lt;/td&gt;
+&lt;td&gt;146XX&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国电信&lt;/td&gt;
+&lt;td&gt;1410X&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;上网卡&#34;&gt;上网卡&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;支持语音通话（部分） / 短信 / 数据流量&lt;/li&gt;
+&lt;li&gt;号码长度 11 位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;运营商&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;th&gt;号段&lt;/th&gt;
+&lt;th&gt;语音通话&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;中国移动&lt;/td&gt;
+&lt;td&gt;147&lt;/td&gt;
+&lt;td&gt;支持&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国联通&lt;/td&gt;
+&lt;td&gt;145&lt;/td&gt;
+&lt;td&gt;不支持&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中国电信&lt;/td&gt;
+&lt;td&gt;149&lt;/td&gt;
+&lt;td&gt;支持&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;手机号码正则表达式&#34;&gt;手机号码正则表达式&lt;/h4&gt;
+&lt;p&gt;基于前面的信息，我们可以写一个能够匹配所有手机号的正则表达式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;^(?:\+?86)?1(?:[38]\d{3}|5[^4\D]\d{2}|7(?:[235-8]\d{2}|4(?:[09]\d|1[0-2]))|9[0-35-9]\d{2}|66\d{2})\d{6}$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上正则表达式的可视化&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;如下：&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;chinese-phone-no-regex.png&#34; data-caption=&#34;中国手机号码正则表达式&#34;&gt;
+&lt;img data-src=&#34;chinese-phone-no-regex.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; &gt;&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption data-pre=&#34;图&#34; data-post=&#34;:&#34; class=&#34;numbered&#34;&gt;
+    中国手机号码正则表达式
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;h2 id=&#34;参考链接&#34;&gt;参考链接&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.microsoft.com/zh-cn/dotnet/standard/base-types/regular-expression-language-quick-reference?redirectedfrom=MSDN&#34;&gt;微软：正则表达式语言-快速参考&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.jb51.net/tools/zhengze.html&#34;&gt;脚本之家：正则表达式30分钟入门教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/VincentSit/ChinaMobilePhoneNumberRegex/blob/master/README-CN.md&#34;&gt;VincentSit：中国手机号码正则&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;由于携号转网在部分地区已经试行，对于成功进行携号转网的用户，手机号段不再能体现其当前所属运营商。 &lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;根据工信部相关文件，145 / 147 / 149 号段允许提供语音通话功能，运营商可以根据用户需要自主决定是否提供语音通话功能。目前 147 / 149 号段已经有支持语音通话的号码卡放出。 &lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;可视化由网站https://www.debuggex.com/生成。 &lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
 </description>
     </item>
     
